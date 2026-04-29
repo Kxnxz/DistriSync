@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>DistriSync - Dashboard Admin</title>
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="css/styleDashboard.css">
+    </head>
+    <body>
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <img src="v1.png" alt="Logo" />
+
+            <ul>
+                <li class="active" onclick="cambiarSeccion('estadisticas', this)">📊 Estadísticas</li>
+                <li onclick="cambiarSeccion('productos', this)">📦 Productos</li>
+                <li onclick="cambiarSeccion('clientes', this)">👤 Clientes</li>
+                <li onclick="cambiarSeccion('ventas', this)">💰 Ventas</li>
+            </ul>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main">
+            <h1>Panel de Control - DistriSync</h1>
+
+            <div class="topbar">
+                <span>Administrador</span>
+                <div class="top-buttons">
+                    <a href="#" onclick="event.preventDefault();">Inventario</a>
+                    <a href="#" onclick="event.preventDefault();">Pedidos</a>
+                    <a href="#" onclick="event.preventDefault();">Analytics</a>
+                    <a href="#" onclick="event.preventDefault();">Ajustes</a>
+                </div>
+            </div>
+
+            <!-- SECCIÓN ESTADÍSTICAS -->
+            <div id="estadisticas" class="section active">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Sales Totales</h3>
+                        <div class="number" id="totalSales">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Órdenes</h3>
+                        <div class="number" id="totalOrdenes">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Clientes</h3>
+                        <div class="number" id="totalClientes">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Resumen Rápido</h2>
+                    <p>✓ Ingresos del mes: <strong id="ingresosMes">$0</strong></p>
+                    <p>✓ Productos en stock: <strong id="productosStock">0</strong></p>
+                    <p>✓ Órdenes pendientes: <strong id="ordenesPendientes">0</strong></p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN PRODUCTOS -->
+            <div id="productos" class="section">
+                <div class="card">
+                    <h2>Gestión de Productos</h2>
+                    <button class="btn btn-action" onclick="mostrarFormularioProducto()">➕ Agregar Producto</button>
+                    
+                    <div id="formProductoContainer"></div>
+
+                    <table id="tablaProductos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECCIÓN CLIENTES -->
+            <div id="clientes" class="section">
+                <div class="card">
+                    <h2>Gestión de Clientes</h2>
+                    
+                    <table id="tablaClientes">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Compras</th>
+                                <th>Total Gastado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECCIÓN VENTAS -->
+            <div id="ventas" class="section">
+                <div class="card">
+                    <h2>Historial de Ventas</h2>
+                    
+                    <table id="tablaVentas">
+                        <thead>
+                            <tr>
+                                <th>Orden #</th>
+                                <th>Cliente</th>
+                                <th>Productos</th>
+                                <th>Total</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/app.js"></script>
+    </body>
+</html>

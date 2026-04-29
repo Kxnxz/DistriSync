@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DistriSync - Catálogo</title>
+    <link rel="stylesheet" href="css/styleCatalogo.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="logo">
+        <img src="v1.png">
+        <span>DistriSync</span>
+    </div>
+
+    <div class="search">
+        <input type="text" placeholder="Buscar producto...">
+    </div>
+
+    <nav class="menu">
+        <a href="catalogoProductos.html">Catálogo</a>
+        <a href="miCuenta.html" id="miCuentaLink">Mi Cuenta</a>
+        <a href="carrito.html">Carrito</a>
+        <a href="dashboard.html" id="dashboardLink" style="display:none;">Dashboard</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar">
+        <h3>Categorías</h3>
+        <ul>
+            <li class="active">todas</li>
+            <li>maquillaje</li>
+            <li>skincare</li>
+            <li>hidratación</li>
+            <li>limpieza facial</li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <div class="products" id="contenedorProductos"></div>
+    </main>
+
+</div>
+
+<!-- ORDEN CLAVE -->
+<script src="js/carrito.js"></script>
+<script src="js/catalogoProductos.js"></script>
+
+</body>
+</html>
