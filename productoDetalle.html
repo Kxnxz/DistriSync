@@ -6,6 +6,9 @@
     <title>DistriSync - Detalle de Producto</title>
     <link rel="stylesheet" href="css/styleCatalogo.css">
     <style>
+        body {
+            background-color: #f8f6fa;
+        }
         .content {
             flex: 1;
             padding: 40px;
@@ -14,8 +17,55 @@
             align-items: flex-start;
         }
         .card {
-            max-width: 900px;
+            max-width: 950px;
             width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 32px;
+            box-shadow: 0 15px 35px rgba(75, 0, 130, 0.1);
+            border: 1px solid #F8C7DF;
+        }
+        .product-badge {
+            display: inline-block;
+            background: #E7DAF8;
+            color: #4B0082;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .btn-custom {
+            flex: 1;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-primary-custom {
+            background: #4B0082;
+            color: white;
+        }
+        .btn-primary-custom:hover {
+            background: #320057;
+            transform: translateY(-2px);
+        }
+        .btn-secondary-custom {
+            background: #FFC9B8;
+            color: #2d1b2e;
+        }
+        #detalleImagen {
+            width: 100%;
+            border-radius: 24px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        #detalleImagen:hover {
+            transform: scale(1.02);
         }
     </style>
 </head>
@@ -35,22 +85,30 @@
 
     <div class="content">
         <div class="card">
-            <button class="btn btn-outline" onclick="location.href='catalogoProductos.html'">← Volver al Catálogo</button>
-            <h1 id="detalleNombre" style="color: #4B0082; margin-top: 20px;">Producto</h1>
-            <div style="display: flex; gap: 30px; flex-wrap: wrap; margin-top: 20px;">
-                <div style="flex: 1 1 300px; min-width: 250px;">
-                    <img id="detalleImagen" src="" alt="" style="width: 100%; border-radius: 12px; border:1px solid #e6d4f5;" />
+            <button class="btn btn-outline" onclick="location.href='catalogoProductos.html'" style="margin-bottom: 20px; cursor: pointer;">← Volver al Catálogo</button>
+            
+            <div style="display: flex; gap: 40px; flex-wrap: wrap; align-items: center;">
+                <div style="flex: 1 1 350px;">
+                    <img id="detalleImagen" src="" alt="Cargando producto..." />
                 </div>
-                <div style="flex: 1 1 300px; min-width: 250px;">
-                    <p><strong>Categoría:</strong> <span id="detalleCategoria"></span></p>
-                    <p><strong>Precio:</strong> <span id="detallePrecio" style="color: #4B0082; font-weight: 600; font-size: 18px;"></span></p>
-                    <p><strong>Stock:</strong> <span id="detalleStock"></span></p>
-                    <p><strong>Descripción:</strong></p>
-                    <p id="detalleDescripcion">Descripción detallada del producto.</p>
 
-                    <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-                        <button class="btn btn-action" id="btnAgregarCarrito" style="background: #4B0082; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">Agregar al Carrito</button>
-                        <button class="btn btn-info" id="btnIrCarrito" style="background: #6B2DA0; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">Ir al Carrito</button>
+                <div style="flex: 1 1 350px;">
+                    <span class="product-badge" id="detalleCategoria">Categoría</span>
+                    <h1 id="detalleNombre" style="color: #2d1b2e; font-size: 2.5rem; margin-bottom: 10px;">Producto</h1>
+                    
+                    <p style="font-size: 1.5rem; color: #4B0082; font-weight: 800; margin-bottom: 20px;">
+                        $ <span id="detallePrecio">0</span>
+                    </p>
+
+                    <div style="background: #fdfbff; padding: 20px; border-radius: 20px; border: 1px dashed #C095B5; margin-bottom: 20px;">
+                        <p style="margin-bottom: 10px;"><strong>Stock disponible:</strong> <span id="detalleStock"></span> unidades</p>
+                        <p><strong>Descripción:</strong></p>
+                        <p id="detalleDescripcion" style="color: #5E5E5E; line-height: 1.6;">Cargando descripción...</p>
+                    </div>
+
+                    <div style="display: flex; gap: 15px;">
+                        <button class="btn-custom btn-primary-custom" id="btnAgregarCarrito">Añadir al Carrito</button>
+                        <button class="btn-custom btn-secondary-custom" id="btnIrCarrito">Ver Carrito</button>
                     </div>
                 </div>
             </div>
