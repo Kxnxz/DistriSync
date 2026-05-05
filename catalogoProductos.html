@@ -1,54 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title>DistriSync - Catálogo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DistriSync - Catálogo Profesional</title>
+    <!-- Enlace a tu CSS actualizado -->
     <link rel="stylesheet" href="css/styleCatalogo.css">
 </head>
-
 <body>
+    <!-- Barra de navegación (Topbar) -->
+    <header class="topbar">
+        <div class="logo">
+            <img src="v1.png" alt="DistriSync Logo">
+            <span>DistriSync</span>
+        </div>
+        <nav class="menu">
+            <a href="index.html">Inicio</a>
+            <a href="miCuenta.html">Mi Cuenta</a>
+            <a href="carrito.html">Carrito</a>
+            <a href="dashboard.html" id="dashboardLink" style="display:none;">Dashboard</a>
+        </nav>
+    </header>
 
-<header class="topbar">
-    <div class="logo">
-        <img src="v1.png">
-        <span>DistriSync</span>
+    <div class="container">
+        <!-- Pestañas de categorías (Filtros) -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filtrarProductos('todos')">📋 Todos</button>
+            <button class="tab-btn" onclick="filtrarProductos('Maquillaje')">💄 Maquillaje</button>
+            <button class="tab-btn" onclick="filtrarProductos('Skincare')">🧴 Skincare</button>
+            <button class="tab-btn" onclick="filtrarProductos('Capilar')">💇 Capilar</button>
+        </div>
+
+        <!-- Contenedor donde el JS cargará las tarjetas -->
+        <div id="productosGrid" class="products-grid">
+            <!-- Los productos se cargan dinámicamente aquí -->
+        </div>
     </div>
 
-    <div class="search">
-        <input type="text" placeholder="Buscar producto...">
-    </div>
+    <footer>
+        <p>&copy; 2026 DistriSync - Todos los derechos reservados</p>
+    </footer>
 
-    <nav class="menu">
-        <a href="catalogoProductos.html">Catálogo</a>
-        <a href="miCuenta.html" id="miCuentaLink">Mi Cuenta</a>
-        <a href="carrito.html">Carrito</a>
-        <a href="dashboard.html" id="dashboardLink" style="display:none;">Dashboard</a>
-    </nav>
-</header>
-
-<div class="container">
-
-    <aside class="sidebar">
-        <h3>Categorías</h3>
-        <ul>
-            <li class="active">todas</li>
-            <li>maquillaje</li>
-            <li>skincare</li>
-            <li>hidratación</li>
-            <li>limpieza facial</li>
-        </ul>
-    </aside>
-
-    <main class="content">
-        <div class="products" id="contenedorProductos"></div>
-    </main>
-
-</div>
-
-<!-- ORDEN CLAVE -->
-<script src="js/carrito.js"></script>
-<script src="js/catalogoProductos.js"></script>
-
+    <!-- Tus scripts de lógica -->
+    <script src="js/carrito.js"></script>
+    <script src="js/catalogoProductos.js"></script>
 </body>
 </html>
