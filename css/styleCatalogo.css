@@ -1,5 +1,5 @@
 /* =========================================
-   ESTILOS BASE (Tus estilos originales)
+   ESTILOS BASE
    ========================================= */
 * {
     margin: 0;
@@ -12,11 +12,11 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f8f6fa; /* Un gris muy claro con tinte lila */
+    background-color: #f8f6fa;
 }
 
 .topbar {
-    background-color: #4B0082; /* Tu morado principal */
+    background-color: #4B0082;
     color: white;
     padding: 15px 30px;
     display: flex;
@@ -49,9 +49,6 @@ body {
     color: #E7DAF8;
 }
 
-/* =========================================
-   CONTENEDOR Y TABS (Inspirado en tu compañera)
-   ========================================= */
 .container {
     max-width: 1400px;
     margin: 0 auto;
@@ -85,16 +82,26 @@ body {
     transform: translateY(-2px);
 }
 
-/* =========================================
-   GRILLA DE PRODUCTOS (Diseño de tu compañera)
-   ========================================= */
+/* GRILLA - 3 POR FILA */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
-/* LA TARJETA (Card) */
+@media (max-width: 1200px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
 .product-card {
     background: white;
     border-radius: 24px;
@@ -160,7 +167,6 @@ body {
     margin-right: 2px;
 }
 
-/* BOTONES DE LA TARJETA */
 .btn-card {
     width: 100%;
     padding: 12px;
@@ -172,13 +178,35 @@ body {
     font-size: 0.9rem;
     background: #4B0082;
     color: white;
+    margin-bottom: 5px;
+}
+
+.btn-card:first-of-type {
+    background: #E7DAF8;
+    color: #4B0082;
 }
 
 .btn-card:hover {
     background: #320057;
+    color: white;
 }
 
-/* FOOTER OPCIONAL */
+.btn-card:first-of-type:hover {
+    background: #4B0082;
+    color: white;
+}
+
+.empty-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    font-size: 1.3rem;
+    color: #666;
+    background: white;
+    border-radius: 24px;
+    border: 2px dashed #E7DAF8;
+}
+
 footer {
     margin-top: auto;
     padding: 25px;
@@ -186,3 +214,4 @@ footer {
     color: #5E5E5E;
     border-top: 1px solid #E7DAF8;
 }
+

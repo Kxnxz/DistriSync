@@ -3,10 +3,15 @@ const productos = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+    const dashboardLink = document.getElementById("dashboardLink");
+    if (usuario && usuario.rol === "admin") {
+        dashboardLink.style.display = "inline";
+    }
     cargarProductos();
 });
 
-// 🔥 CARGAR DESDE TU SERVER (Se mantiene igual)
+// CARGAR DESDE SERVER
 function cargarProductos() {
     fetch("php/producto.php")
     .then(res => res.json())
@@ -18,9 +23,8 @@ function cargarProductos() {
     .catch(err => console.error("Error:", err));
 }
 
-// 🔥 MOSTRAR PRODUCTOS (Aquí inyectamos el diseño pro)
+// MOSTRAR PRODUCTOS
 function mostrarProductos(lista) {
-    // IMPORTANTE: Asegúrate que en tu HTML el ID sea "productosGrid"
     const contenedor = document.getElementById("productosGrid");
     contenedor.innerHTML = "";
 
@@ -30,7 +34,6 @@ function mostrarProductos(lista) {
     }
 
     lista.forEach(p => {
-        // Creamos la estructura de la tarjeta con tus colores y el diseño de tu compañera
         contenedor.innerHTML += `
             <div class="product-card">
                 <div class="product-img">
@@ -60,7 +63,7 @@ function mostrarProductos(lista) {
     });
 }
 
-// 🔥 DETALLE (Mantenemos tu lógica de LocalStorage)
+// DETALLE PRODUCTO
 function verDetalleProducto(id) {
     const producto = productos.todos.find(p => p.id_producto == id);
     if (!producto) return;
@@ -69,7 +72,7 @@ function verDetalleProducto(id) {
     window.location.href = "productoDetalle.html";
 }
 
-// 🔥 CARRITO (Mantenemos tu lógica de Carrito)
+// AGREGAR CARRITO
 function agregarAlCarritoSimple(id) {
     const producto = productos.todos.find(p => p.id_producto == id);
     if (typeof agregarAlCarrito === "function") {
@@ -78,3 +81,4 @@ function agregarAlCarritoSimple(id) {
         alert("Carrito no disponible");
     }
 }
+

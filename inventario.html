@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario - DistriSync</title>
+    <link rel="stylesheet" href="css/styleInventario.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="page-header">
+            <div>
+                <h1>Inventario</h1>
+                <p>Controla el stock y el valor total de los productos.</p>
+            </div>
+            <a class="btn" href="dashboard.html">← Volver al Dashboard</a>
+        </header>
+
+        <section class="summary-grid">
+            <article>
+                <h2 id="totalItems">0</h2>
+                <p>Productos en inventario</p>
+            </article>
+            <article>
+                <h2 id="stockTotal">0</h2>
+                <p>Stock total</p>
+            </article>
+            <article>
+                <h2 id="valorInventario">$0</h2>
+                <p>Valor estimado</p>
+            </article>
+        </section>
+
+        <section class="card">
+            <h2>Listado de inventario</h2>
+            <table id="tablaInventario">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Stock</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="js/inventario.js"></script>
+</body>
+</html>

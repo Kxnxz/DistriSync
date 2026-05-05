@@ -4,7 +4,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    fetch("http://localhost:3000/php/login.php", {
+fetch("php/login.php", {
         method: "POST",
         body: new URLSearchParams({
             email: email,
