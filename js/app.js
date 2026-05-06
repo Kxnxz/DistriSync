@@ -1,178 +1,302 @@
-// 🔒 PROTEGER DASHBOARD (solo admin)
+const API_PRODUCTO = 'php/productos_crud.php';
+
+let productosDashboard = [];
+
+// 🔒 PROTEGER DASHBOARD
 document.addEventListener("DOMContentLoaded", () => {
+
     const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    const esDashboard = window.location.pathname.includes("dashboard.html");
+    if (!usuario || usuario.rol !== "admin") {
 
-    if (esDashboard) {
-        if (!usuario || usuario.rol !== "admin") {
-            window.location.href = "catalogoProductos.html";
-            return;
-        }
+        window.location.href = "catalogoProductos.html";
+        return;
     }
 
-    // Inicializar
-    actualizarEstadisticas();
-    renderProductos();
-    renderClientes();
-    renderVentas();
+    cargarProductos();
 });
 
+// 🔥 CAMBIAR SECCIÓN
+window.cambiarSeccion = function(seccion, elemento) {
 
-// Datos del sistema
-let productos = [
-    { id: 1, nombre: "Maquillaje Professional", categoria: "maquillaje", precio: 45.99, stock: 15 },
-    { id: 2, nombre: "Skincare Premium", categoria: "skincare", precio: 55.99, stock: 8 },
-    { id: 3, nombre: "Hidratación Intensiva", categoria: "hidratacion", precio: 35.99, stock: 20 },
-    { id: 4, nombre: "Limpieza Facial Suave", categoria: "limpieza_facial", precio: 29.99, stock: 12 },
-    { id: 5, nombre: "Champú Capilar", categoria: "limpieza_capilar", precio: 32.99, stock: 18 },
-    { id: 6, nombre: "Spa Treatment", categoria: "spa", precio: 65.99, stock: 5 },
-    { id: 7, nombre: "Cuidado Facial Express", categoria: "cuidado_facial", precio: 48.99, stock: 10 },
-    { id: 8, nombre: "Belleza Natural", categoria: "belleza_natural", precio: 42.99, stock: 14 }
-];
+    document.querySelectorAll('.section')
+        .forEach(sec => sec.classList.remove('active'));
 
-let clientes = [
-    { id: 1, nombre: "Juan Pérez", email: "juan@example.com", compras: 5, totalGastado: 245.50 },
-    { id: 2, nombre: "María García", email: "maria@example.com", compras: 3, totalGastado: 128.75 },
-    { id: 3, nombre: "Carlos López", email: "carlos@example.com", compras: 8, totalGastado: 432.20 },
-    { id: 4, nombre: "Ana Martínez", email: "ana@example.com", compras: 2, totalGastado: 95.40 },
-    { id: 5, nombre: "Roberto Silva", email: "roberto@example.com", compras: 6, totalGastado: 318.90 }
-];
+    const section = document.getElementById(seccion);
 
-let ventas = [
-    { id: 1001, cliente: "Juan Pérez", productos: 2, total: 85.99, fecha: "2025-03-20", estado: "Entregado" },
-    { id: 1002, cliente: "María García", productos: 1, total: 55.99, fecha: "2025-03-21", estado: "Enviado" },
-    { id: 1003, cliente: "Carlos López", productos: 3, total: 142.50, fecha: "2025-03-22", estado: "Procesando" },
-    { id: 1004, cliente: "Ana Martínez", productos: 1, total: 45.99, fecha: "2025-03-23", estado: "Entregado" },
-    { id: 1005, cliente: "Roberto Silva", productos: 2, total: 98.50, fecha: "2025-03-24", estado: "Pendiente" }
-];
+    if (section) {
+        section.classList.add('active');
+    }
 
-let productoEnEdicion = null;
+    document.querySelectorAll('.sidebar li')
+        .forEach(li => li.classList.remove('active'));
 
+    if (elemento) {
+        elemento.classList.add('active');
+    }
 
-// === CAMBIAR SECCIÓN ===
-function cambiarSeccion(seccion, elemento) {
-    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-    document.getElementById(seccion).classList.add('active');
+    if (seccion === 'productos') {
+        cargarProductos();
+    }
+};
 
-    document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
-    if (elemento) elemento.classList.add('active');
+// 🔥 CARGAR PRODUCTOS
+function cargarProductos() {
 
-    if (seccion === 'productos') renderProductos();
-    if (seccion === 'clientes') renderClientes();
-    if (seccion === 'ventas') renderVentas();
+    console.log("🚀 Cargando productos...");
+
+    fetch(API_PRODUCTO + '?action=listar')
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        console.log("📦 PRODUCTOS MYSQL:");
+        console.log(data);
+
+        productosDashboard = data;
+
+        renderProductos(productosDashboard);
+
+    })
+
+    .catch(err => {
+
+        console.error("❌ ERROR CARGANDO:");
+        console.error(err);
+
+    });
 }
 
+// 🔥 RENDER PRODUCTOS
+function renderProductos(lista) {
 
-// === ESTADÍSTICAS ===
-function actualizarEstadisticas() {
-    const totalSales = ventas.reduce((sum, v) => sum + v.total, 0);
-    const totalOrdenes = ventas.length;
-    const totalClientes = clientes.length;
-    const ingresosMes = totalSales;
-    const productosStock = productos.reduce((sum, p) => sum + p.stock, 0);
-    const ordenesPendientes = ventas.filter(v => v.estado === 'Pendiente' || v.estado === 'Procesando').length;
+    const tbody = document.querySelector('#tablaProductos tbody');
 
-    document.getElementById('totalSales').textContent = `$${totalSales.toFixed(2)}`;
-    document.getElementById('totalOrdenes').textContent = totalOrdenes;
-    document.getElementById('totalClientes').textContent = totalClientes;
-    document.getElementById('ingresosMes').textContent = `$${ingresosMes.toFixed(2)}`;
-    document.getElementById('productosStock').textContent = productosStock;
-    document.getElementById('ordenesPendientes').textContent = ordenesPendientes;
-}
+    if (!tbody) {
+        console.error("❌ No existe #tablaProductos tbody");
+        return;
+    }
 
+    tbody.innerHTML = '';
 
-// === PRODUCTOS ===
-function renderProductos() {
-    const tabla = document.querySelector('#tablaProductos tbody');
-    tabla.innerHTML = '';
+    if (!lista || lista.length === 0) {
 
-    productos.forEach((p) => {
-        tabla.innerHTML += `
+        tbody.innerHTML = `
             <tr>
-                <td>${p.id}</td>
+                <td colspan="6" style="text-align:center;">
+                    No hay productos
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    lista.forEach(p => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${p.id_producto}</td>
                 <td>${p.nombre}</td>
                 <td>${p.categoria}</td>
-                <td>$${p.precio}</td>
+                <td>$${Number(p.precio).toFixed(2)}</td>
                 <td>${p.stock}</td>
                 <td>
-                    <button onclick="editarProducto(${p.id})">Editar</button>
-                    <button onclick="eliminarProducto(${p.id})">Eliminar</button>
+
+                    <button onclick="editarProducto(${p.id_producto})">
+                        Editar
+                    </button>
+
+                    <button onclick="eliminarProducto(${p.id_producto})">
+                        Eliminar
+                    </button>
+
                 </td>
             </tr>
         `;
     });
 }
 
-function guardarProducto() {
-    const nombre = document.getElementById('prodNombre').value.trim();
-    const categoria = document.getElementById('prodCategoria').value.trim();
-    const precio = parseFloat(document.getElementById('prodPrecio').value);
-    const stock = parseInt(document.getElementById('prodStock').value);
+// 🔥 MOSTRAR MODAL
+window.mostrarModal = function(tipo, producto = null) {
 
-    if (!nombre || !categoria || isNaN(precio) || isNaN(stock)) {
-        alert("Campos inválidos");
+    const modal = document.getElementById('modalProducto');
+
+    const titulo = document.getElementById('modalTitulo');
+
+    document.getElementById('formProducto').reset();
+
+    document.getElementById('prodId').value = '';
+
+    if (tipo === 'crear') {
+
+        titulo.textContent = '➕ Agregar Producto';
+
+    } else if (tipo === 'editar' && producto) {
+
+        titulo.textContent = '✏️ Editar Producto';
+
+        document.getElementById('prodId').value = producto.id_producto;
+
+        document.getElementById('prodNombre').value = producto.nombre;
+
+        document.getElementById('prodPrecio').value = producto.precio;
+
+        document.getElementById('prodStock').value = producto.stock;
+
+        document.getElementById('prodCategoria').value = producto.categoria;
+    }
+
+    modal.style.display = 'flex';
+};
+
+// 🔥 CERRAR MODAL
+window.cerrarModal = function() {
+
+    document.getElementById('modalProducto').style.display = 'none';
+};
+
+// 🔥 EDITAR PRODUCTO
+window.editarProducto = function(id) {
+
+    const producto = productosDashboard.find(p => p.id_producto == id);
+
+    if (!producto) {
+        alert("Producto no encontrado");
         return;
     }
 
-    if (productoEnEdicion) {
-        Object.assign(productoEnEdicion, { nombre, categoria, precio, stock });
-    } else {
-        const id = productos.length + 1;
-        productos.push({ id, nombre, categoria, precio, stock });
+    mostrarModal('editar', producto);
+};
+
+// 🔥 ELIMINAR PRODUCTO
+window.eliminarProducto = function(id) {
+
+    if (!confirm("¿Eliminar producto?")) return;
+
+    const form = new FormData();
+
+    form.append('action', 'eliminar');
+
+    form.append('id', id);
+
+    fetch(API_PRODUCTO, {
+        method: 'POST',
+        body: form
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        console.log("🗑️ RESPUESTA:");
+        console.log(data);
+
+        if (data.success) {
+
+            cargarProductos();
+
+        } else {
+
+            alert(data.error || "Error eliminando");
+        }
+
+    })
+
+    .catch(err => {
+
+        console.error(err);
+
+    });
+};
+
+// 🔥 GUARDAR PRODUCTO
+function guardarProducto() {
+
+    const id = document.getElementById('prodId').value;
+
+    const nombre = document.getElementById('prodNombre').value.trim();
+
+    const precio = document.getElementById('prodPrecio').value;
+
+    const stock = document.getElementById('prodStock').value;
+
+    const categoria = document.getElementById('prodCategoria').value;
+
+    if (!nombre || !precio || !stock || !categoria) {
+
+        alert("Completa todos los campos");
+        return;
     }
 
-    renderProductos();
-}
+    const form = new FormData();
 
+    form.append('nombre', nombre);
 
-// === CLIENTES ===
-function renderClientes() {
-    const tabla = document.querySelector('#tablaClientes tbody');
-    tabla.innerHTML = '';
+    form.append('precio', precio);
 
-    clientes.forEach(c => {
-        tabla.innerHTML += `
-            <tr>
-                <td>${c.id}</td>
-                <td>${c.nombre}</td>
-                <td>${c.email}</td>
-                <td>${c.compras}</td>
-                <td>$${c.totalGastado}</td>
-            </tr>
-        `;
+    form.append('stock', stock);
+
+    form.append('categoria', categoria);
+
+    form.append('imagen', 'v1.png');
+
+    if (id) {
+
+        form.append('action', 'editar');
+
+        form.append('id', id);
+
+    } else {
+
+        form.append('action', 'crear');
+    }
+
+    fetch(API_PRODUCTO, {
+        method: 'POST',
+        body: form
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        console.log("💾 RESPUESTA:");
+        console.log(data);
+
+        if (data.success) {
+
+            cerrarModal();
+
+            cargarProductos();
+
+        } else {
+
+            alert(data.error || "Error guardando");
+        }
+
+    })
+
+    .catch(err => {
+
+        console.error(err);
+
     });
 }
 
+// 🔥 SUBMIT FORM
+document.addEventListener("DOMContentLoaded", () => {
 
-// === VENTAS ===
-function renderVentas() {
-    const tabla = document.querySelector('#tablaVentas tbody');
-    tabla.innerHTML = '';
+    const form = document.getElementById('formProducto');
 
-    ventas.forEach(v => {
-        tabla.innerHTML += `
-            <tr>
-                <td>${v.id}</td>
-                <td>${v.cliente}</td>
-                <td>${v.productos}</td>
-                <td>$${v.total}</td>
-                <td>${v.estado}</td>
-            </tr>
-        `;
-    });
-}
+    if (form) {
 
+        form.addEventListener('submit', function(e) {
 
-// === FUNCIONES AUX ===
-function mostrarProductos() {
-    cambiarSeccion('productos');
-}
+            e.preventDefault();
 
-function mostrarClientes() {
-    cambiarSeccion('clientes');
-}
-
-function mostrarVentas() {
-    cambiarSeccion('ventas');
-}
+            guardarProducto();
+        });
+    }
+});

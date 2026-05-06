@@ -8,59 +8,56 @@ document.addEventListener("DOMContentLoaded", () => {
     if (usuario && usuario.rol === "admin") {
         dashboardLink.style.display = "inline";
     }
-    cargarProductos();
+    tos();
 });
 
 // CARGAR DESDE SERVER
 function cargarProductos() {
-    fetch("php/producto.php")
-    .then(res => res.json())
-    .then(data => {
-        console.log("RESPUESTA:", data);
-        productos.todos = data;
-        mostrarProductos(data);
+
+    console.log("🚀 Iniciando carga de productos...");
+
+    fetch("php/producto.php?action=listar")
+
+    .then(res => {
+
+        console.log("📡 STATUS:", res.status);
+        console.log("📡 HEADERS:", res.headers.get("content-type"));
+
+        return res.text();
     })
-    .catch(err => console.error("Error:", err));
-}
 
-// MOSTRAR PRODUCTOS
-function mostrarProductos(lista) {
-    const contenedor = document.getElementById("productosGrid");
-    contenedor.innerHTML = "";
+    .then(data => {
 
-    if (!lista || lista.length === 0) {
-        contenedor.innerHTML = "<p class='empty-message'>No hay productos disponibles por ahora.</p>";
-        return;
-    }
+        console.log("📦 RESPUESTA RAW:");
+        console.log(data);
 
-    lista.forEach(p => {
-        contenedor.innerHTML += `
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="${p.imagen || 'v1.png'}" alt="${p.nombre}">
-                </div>
-                <div class="product-info">
-                    <span class="product-category">${p.categoria || 'Cosmético'}</span>
-                    <h4 class="product-title">${p.nombre}</h4>
-                    <p class="product-price">$${Number(p.precio).toLocaleString()}</p>
-                    
-                    <div class="buttons" style="display: flex; gap: 8px;">
-                        <button class="btn-card" style="background: #E7DAF8; color: #4B0082;" 
-                                onclick="verDetalleProducto(${p.id_producto})">
-                            Ver más
-                        </button>
-                        
-                        <button class="btn-card" 
-                                style="background: ${p.stock > 0 ? '#4B0082' : '#ccc'}; color: white;"
-                                onclick="agregarAlCarritoSimple(${p.id_producto})"
-                                ${p.stock <= 0 ? "disabled" : ""}>
-                            ${p.stock > 0 ? "Agregar" : "Agotado"}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
+        try {
+
+            const json = JSON.parse(data);
+
+            console.log("✅ JSON PARSEADO:");
+            console.log(json);
+
+            productos.todos = json;
+
+            mostrarProductos(json);
+
+        } catch(err) {
+
+            console.error("❌ ERROR PARSEANDO JSON:");
+            console.error(err);
+
+        }
+
+    })
+
+    .catch(err => {
+
+        console.error("💀 ERROR FETCH:");
+        console.error(err);
+
     });
+
 }
 
 // DETALLE PRODUCTO
