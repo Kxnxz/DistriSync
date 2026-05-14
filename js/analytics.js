@@ -1,14 +1,20 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const ventas = 8420.50;
-    const clientesActivos = 128;
-    const productosVendidos = 432;
-    const crecimiento = 12.4;
-    const promedio = 45.25;
-
-    document.getElementById('ventasTotales').textContent = `$${ventas.toFixed(2)}`;
-    document.getElementById('clientesActivos').textContent = clientesActivos;
-    document.getElementById('productosVendidos').textContent = productosVendidos;
-    document.getElementById('mesActual').textContent = `${crecimiento.toFixed(1)}%`;
-    document.getElementById('crecimiento').textContent = `${crecimiento.toFixed(1)}%`;
-    document.getElementById('ticketPromedio').textContent = `$${promedio.toFixed(2)}`;
+document.addEventListener('DOMContentLoaded', async function() {
+    await cargarAnalytics();
 });
+
+async function cargarAnalytics() {
+    try {
+        const response = await fetch('php/analytics.php?action=estadisticas');
+        const data = await response.json();
+
+        document.getElementById('ventasTotales').textContent = `$${Number(data.ventasTotales).toFixed(2)}`;
+        document.getElementById('clientesActivos').textContent = data.clientesActivos;
+        document.getElementById('productosVendidos').textContent = data.productosVendidos;
+        document.getElementById('mesActual').textContent = `${Number(data.crecimiento).toFixed(1)}%`;
+        document.getElementById('crecimiento').textContent = `${Number(data.crecimiento).toFixed(1)}%`;
+        document.getElementById('ticketPromedio').textContent = `$${Number(data.ticketPromedio).toFixed(2)}`;
+    } catch (err) {
+        console.error('Error cargando analytics:', err);
+        alert('Error cargando estadísticas');
+    }
+}

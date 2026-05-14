@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: application/json");
 include("conexion.php");
 
 $sql = "
@@ -25,17 +24,16 @@ $data = [];
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $data[] = [
-            "id_usuario" => $row["id_usuario"],
-            "nombre" => $row["nombre"],
-            "apellido" => $row["apellido"],
-
-            "email" => $row["email"],
-            "compras" => (int)$row["compras"],
-            "totalGastado" => (float)$row["total_gastado"]
+            'id_usuario' => $row['id_usuario'],
+            'nombre' => $row['nombre'],
+            'apellido' => $row['apellido'],
+            'email' => $row['email'],
+            'compras' => (int)$row['compras'],
+            'totalGastado' => (float)$row['total_gastado']
         ];
     }
 }
 
-echo json_encode($data);
+json_response(200, $data);
 $conn->close();
 ?>

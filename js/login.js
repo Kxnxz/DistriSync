@@ -1,33 +1,32 @@
-document.getElementById("loginForm").addEventListener("submit", function(e) {
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-fetch("php/login.php", {
-        method: "POST",
-        body: new URLSearchParams({
-            email: email,
-            password: password
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
+    try {
+        const response = await fetch("php/login.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                email: email,
+                password: password
+            })
+        });
+
+        const data = await response.json();
 
         if (data.success) {
-            // 🔥 guardar sesión correctamente
             localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
-
             alert("Bienvenido " + data.usuario.nombre);
-
             window.location.href = "catalogoProductos.html";
         } else {
             alert(data.message || "Datos incorrectos");
         }
-    })
-    .catch(err => {
+    } catch (err) {
         console.error(err);
-        alert("Error real, revisa consola");
-    });
+        alert("Error de conexión, revisa consola");
+    }
 });

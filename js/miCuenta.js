@@ -31,43 +31,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // 🔌 PEDIDOS DESDE PHP
-function cargarPedidos(idUsuario) {
+async function cargarPedidos(idUsuario) {
+    try {
+        const response = await fetch(`php/mis_compras.php?id_usuario=${idUsuario}`);
+        const data = await response.json();
 
-    fetch(`http://localhost:3000/DistriV4/php/mis_compras.php?id_usuario=${idUsuario}`)
-        .then(res => res.json())
-        .then(data => {
+        const tabla = document.getElementById('ordersTable');
 
-            const tabla = document.getElementById('ordersTable');
+        if (!data || data.length === 0) {
+            tabla.innerHTML = `
+                <tr>
+                    <td colspan="5" style="text-align:center;">No tienes pedidos</td>
+                </tr>
+            `;
+            return;
+        }
 
-            if (!data || data.length === 0) {
-                tabla.innerHTML = `
-                    <tr>
-                        <td colspan="5" style="text-align:center;">No tienes pedidos</td>
-                    </tr>
-                `;
-                return;
-            }
+        tabla.innerHTML = '';
 
-            tabla.innerHTML = '';
-
-            data.forEach(venta => {
-                tabla.innerHTML += `
-                    <tr>
-                        <td>#${venta.id_venta}</td>
-                        <td>${venta.fecha || '---'}</td>
-                        <td>$${Number(venta.total).toFixed(2)}</td>
-                        <td>Procesando</td>
-                    </tr>
-                `;
-            });
-        })
-        .catch(err => console.log(err));
+        data.forEach(venta => {
+            tabla.innerHTML += `
+                <tr>
+                    <td>#${venta.id_venta}</td>
+                    <td>${venta.fecha || '---'}</td>
+                    <td>$${Number(venta.total).toFixed(2)}</td>
+                    <td>Procesando</td>
+                </tr>
+            `;
+        });
+    } catch (err) {
+        console.error('Error cargando pedidos:', err);
+    }
 }
 
 
 // 🔥 EDITAR PERFIL (AHORA CON PHP)
-function guardarCambiosPerfil() {
-
+async function guardarCambiosPerfil() {
     const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
 
     const nombre = document.getElementById('editNombre').value.trim();
@@ -79,25 +78,35 @@ function guardarCambiosPerfil() {
         return;
     }
 
-    fetch(`http://localhost:3000/DistriV4/php/editar_usuario.php`, {
-        method: "POST",
-        body: new URLSearchParams({
-            id_usuario: usuario.id_usuario,
-            nombre,
-            email,
-            password
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
+    try {
+        const response = await fetch('php/editar_usuario.php', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id_usuario: usuario.id_usuario,
+                nombre,
+                email,
+                password
+            })
+        });
+
+        const data = await response.json();
 
         if (data.success) {
             usuario.nombre = nombre;
             usuario.email = email;
-
             localStorage.setItem('usuarioActivo', JSON.stringify(usuario));
-
             alert("Perfil actualizado");
+        } else {
+            alert(data.message || "Error actualizando perfil");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Error de conexión");
+    }
+}
             location.reload();
         } else {
             alert("Error al actualizar");

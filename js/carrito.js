@@ -168,7 +168,7 @@ function obtenerCantidadCarrito() {
 }
 
 // 🔥 FINALIZAR COMPRA (YA CON PHP)
-function finalizarCompra() {
+async function finalizarCompra() {
     const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
 
     if (!usuario) {
@@ -183,37 +183,31 @@ function finalizarCompra() {
 
     const total = carrito.reduce((sum, item) => sum + (Number(item.precio) * item.cantidad), 0);
 
-  fetch("http://localhost:3000/php/ventas.php", {
-        body: new URLSearchParams({
-            id_usuario: usuario.id_usuario,
-            total: total
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
+    try {
+        const response = await fetch("php/detalle_compra.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id_usuario: usuario.id_usuario,
+                total: total,
+                productos: JSON.stringify(carrito)
+            })
+        });
+
+        const data = await response.json();
+
         if (data.success) {
             carrito = [];
             guardarCarrito();
             cargarCarrito();
             mostrarNotificacion("Compra realizada 🧾");
         } else {
-            mostrarNotificacion("Error al guardar la compra");
+            mostrarNotificacion(data.message || "Error al guardar la compra");
         }
-    })
-    .catch(err => {
+    } catch (err) {
         console.error(err);
-        mostrarNotificacion("Error en la compra");
-    });
+        mostrarNotificacion("Error de conexión");
+    }
 }
-// después de crear venta
-carrito.forEach(item => {
-    fetch("http://localhost:3000/DistriV4/php/venta_detalle.php", {
-        method: "POST",
-        body: new URLSearchParams({
-            id_venta: idVenta,
-            id_producto: item.id_producto,
-            cantidad: item.cantidad,
-            precio: item.precio
-        })
-    });
-});

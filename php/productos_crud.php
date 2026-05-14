@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: application/json; charset=utf-8");
 include("conexion.php");
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
@@ -10,94 +9,88 @@ switch($action) {
         $result = $conn->query($sql);
         $data = [];
         if ($result) {
-            while($row = $result->fetch_assoc()) $data[] = $row;
+            while($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
         }
-        echo json_encode($data);
+        json_response(200, $data);
         break;
-        
+
     case 'crear':
         $nombre = trim($_POST['nombre'] ?? '');
         $precio = trim($_POST['precio'] ?? '');
         $stock = trim($_POST['stock'] ?? '');
         $categoria = trim($_POST['categoria'] ?? '');
         $imagen = trim($_POST['imagen'] ?? 'v1.png');
-        
+
         if (empty($nombre) || empty($precio) || empty($stock) || empty($categoria)) {
-            echo json_encode(['success' => false, 'error' => 'Faltan datos obligatorios']);
-            break;
+            json_response(400, ['success' => false, 'error' => 'Faltan datos obligatorios']);
         }
-        
+
         if (!is_numeric($precio) || !is_numeric($stock) || !is_numeric($categoria)) {
-            echo json_encode(['success' => false, 'error' => 'Datos numéricos inválidos']);
-            break;
+            json_response(400, ['success' => false, 'error' => 'Datos numéricos inválidos']);
         }
-        
+
         $stmt = $conn->prepare("INSERT INTO productos (nombre, precio, stock, id_categoria, imagen) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param('sdiis', $nombre, $precio, $stock, $categoria, $imagen);
-        
+
         if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'id' => $stmt->insert_id]);
-        } else {
-            echo json_encode(['success' => false, 'error' => $stmt->error]);
+            json_response(201, ['success' => true, 'id' => $stmt->insert_id]);
         }
+
+        json_response(500, ['success' => false, 'error' => $stmt->error]);
         $stmt->close();
         break;
-        
+
     case 'editar':
         $id = trim($_POST['id'] ?? '');
         $nombre = trim($_POST['nombre'] ?? '');
         $precio = trim($_POST['precio'] ?? '');
         $stock = trim($_POST['stock'] ?? '');
         $categoria = trim($_POST['categoria'] ?? '');
-        
+
         if (empty($id) || empty($nombre) || empty($precio) || empty($stock) || empty($categoria)) {
-            echo json_encode(['success' => false, 'error' => 'Faltan datos obligatorios']);
-            break;
+            json_response(400, ['success' => false, 'error' => 'Faltan datos obligatorios']);
         }
-        
+
         if (!is_numeric($id) || !is_numeric($precio) || !is_numeric($stock) || !is_numeric($categoria)) {
-            echo json_encode(['success' => false, 'error' => 'Datos numéricos inválidos']);
-            break;
+            json_response(400, ['success' => false, 'error' => 'Datos numéricos inválidos']);
         }
-        
+
         $stmt = $conn->prepare("UPDATE productos SET nombre=?, precio=?, stock=?, id_categoria=? WHERE id_producto=?");
         $stmt->bind_param('sdiii', $nombre, $precio, $stock, $categoria, $id);
-        
+
         if ($stmt->execute()) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'error' => $stmt->error]);
+            json_response(200, ['success' => true]);
         }
+
+        json_response(500, ['success' => false, 'error' => $stmt->error]);
         $stmt->close();
         break;
-        
+
     case 'eliminar':
         $id = trim($_POST['id'] ?? '');
-        
+
         if (empty($id) || !is_numeric($id)) {
-            echo json_encode(['success' => false, 'error' => 'ID inválido']);
-            break;
+            json_response(400, ['success' => false, 'error' => 'ID inválido']);
         }
-        
+
         $stmt = $conn->prepare("DELETE FROM productos WHERE id_producto=?");
         $stmt->bind_param('i', $id);
-        
-      if ($stmt->execute()) {
 
-    echo json_encode([
-        'success' => true,
-        'id' => $stmt->insert_id,
-        'mensaje' => 'Producto guardado REALMENTE'
-    ]);
+        if ($stmt->execute()) {
+            json_response(200, ['success' => true, 'message' => 'Producto eliminado']);
+        }
 
-} else {
+        json_response(500, ['success' => false, 'error' => $stmt->error]);
+        $stmt->close();
+        break;
 
-    echo json_encode([
-        'success' => false,
-        'error' => $stmt->error
-    ]);
+    default:
+        json_response(400, ['success' => false, 'error' => 'Acción no válida']);
+        break;
 }
-}
+
 $conn->close();
 ?>
 

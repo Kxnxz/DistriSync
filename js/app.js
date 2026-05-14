@@ -41,15 +41,13 @@ window.cambiarSeccion = function(seccion, elemento) {
 };
 
 // 🔥 CARGAR PRODUCTOS
-function cargarProductos() {
+async function cargarProductos() {
 
     console.log("🚀 Cargando productos...");
 
-    fetch(API_PRODUCTO + '?action=listar')
-
-    .then(res => res.json())
-
-    .then(data => {
+    try {
+        const response = await fetch(API_PRODUCTO + '?action=listar');
+        const data = await response.json();
 
         console.log("📦 PRODUCTOS MYSQL:");
         console.log(data);
@@ -58,14 +56,12 @@ function cargarProductos() {
 
         renderProductos(productosDashboard);
 
-    })
-
-    .catch(err => {
+    } catch (err) {
 
         console.error("❌ ERROR CARGANDO:");
         console.error(err);
 
-    });
+    };
 }
 
 // 🔥 RENDER PRODUCTOS

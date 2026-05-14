@@ -35,27 +35,27 @@ window.cambiarSeccion = function(seccion, elemento) {
 }
 
 // 🔥 CARGAR PRODUCTOS
-window.cargarProductos = function() {
+window.cargarProductos = async function() {
 
-    fetch(API_PRODUCTO + '?action=listar')
+    console.log("🚀 Cargando productos...");
 
-    .then(res => res.json())
+    try {
+        const response = await fetch(API_PRODUCTO + '?action=listar');
+        const data = await response.json();
 
-    .then(data => {
-
-        console.log("📦 PRODUCTOS:", data);
+        console.log("📦 PRODUCTOS MYSQL:");
+        console.log(data);
 
         productosDashboard = data;
 
         renderProductos(data);
 
-    })
+    } catch (err) {
 
-    .catch(err => {
+        console.error("❌ ERROR CARGANDO:");
+        console.error(err);
 
-        console.error("❌ ERROR:", err);
-
-    });
+    };
 
 }
 
@@ -154,41 +154,36 @@ window.editarProducto = function(id) {
 }
 
 // 🔥 ELIMINAR
-window.eliminarProducto = function(id) {
+window.eliminarProducto = async function(id) {
 
     if (!confirm('¿Eliminar producto?')) return;
 
-    const form = new FormData();
+    try {
+        const response = await fetch(API_PRODUCTO, {
+            method: 'POST',
+            body: new URLSearchParams({
+                action: 'eliminar',
+                id: id
+            })
+        });
 
-    form.append('action', 'eliminar');
-
-    form.append('id', id);
-
-    fetch(API_PRODUCTO, {
-        method: 'POST',
-        body: form
-    })
-
-    .then(res => res.json())
-
-    .then(data => {
+        const data = await response.json();
 
         console.log(data);
 
         if (data.success) {
-
             cargarProductos();
-
         } else {
-
             alert(data.error);
         }
-
-    });
+    } catch (err) {
+        console.error(err);
+        alert('Error eliminando producto');
+    }
 }
 
 // 🔥 GUARDAR PRODUCTO
-function guardarProducto() {
+async function guardarProducto() {
 
     const id = document.getElementById('prodId').value;
 
@@ -207,61 +202,45 @@ function guardarProducto() {
         return;
     }
 
-    const form = new FormData();
+    try {
+        const params = new URLSearchParams({
+            nombre,
+            precio,
+            stock,
+            categoria,
+            imagen: 'v1.png'
+        });
 
-    form.append('nombre', nombre);
-
-    form.append('precio', precio);
-
-    form.append('stock', stock);
-
-    form.append('categoria', categoria);
-
-    form.append('imagen', 'v1.png');
-
-    if (id) {
-
-        form.append('action', 'editar');
-
-        form.append('id', id);
-
-    } else {
-
-        form.append('action', 'crear');
-    }
-
-    fetch(API_PRODUCTO, {
-        method: 'POST',
-        body: form
-    })
-
-    .then(res => res.json())
-
-    .then(data => {
-
-        console.log("💾 RESPUESTA SERVER:");
-console.log(data);
-
-alert(JSON.stringify(data));
-
-        if (data.success) {
-
-            cerrarModal();
-
-            cargarProductos();
-
+        if (id) {
+            params.append('action', 'editar');
+            params.append('id', id);
         } else {
-
-            alert(data.error || 'Error');
+            params.append('action', 'crear');
         }
 
-    })
+        const response = await fetch(API_PRODUCTO, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params
+        });
 
-    .catch(err => {
+        const data = await response.json();
 
+        console.log("💾 RESPUESTA SERVER:");
+        console.log(data);
+
+        if (data.success) {
+            cerrarModal();
+            cargarProductos();
+        } else {
+            alert(data.error || 'Error guardando producto');
+        }
+    } catch (err) {
         console.error(err);
-
-    });
+        alert('Error de conexión');
+    }
 }
 
 // 🔥 SUBMIT FORM

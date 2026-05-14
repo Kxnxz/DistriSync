@@ -12,52 +12,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // CARGAR DESDE SERVER
-function cargarProductos() {
-
+async function cargarProductos() {
     console.log("🚀 Iniciando carga de productos...");
 
-    fetch("php/producto.php?action=listar")
+    try {
+        const response = await fetch("php/producto.php?action=listar");
+        const data = await response.json();
 
-    .then(res => {
+        console.log("📦 PRODUCTOS:", data);
 
-        console.log("📡 STATUS:", res.status);
-        console.log("📡 HEADERS:", res.headers.get("content-type"));
-
-        return res.text();
-    })
-
-    .then(data => {
-
-        console.log("📦 RESPUESTA RAW:");
-        console.log(data);
-
-        try {
-
-            const json = JSON.parse(data);
-
-            console.log("✅ JSON PARSEADO:");
-            console.log(json);
-
-            productos.todos = json;
-
-            mostrarProductos(json);
-
-        } catch(err) {
-
-            console.error("❌ ERROR PARSEANDO JSON:");
-            console.error(err);
-
-        }
-
-    })
-
-    .catch(err => {
-
-        console.error("💀 ERROR FETCH:");
-        console.error(err);
-
-    });
-
+        productos.todos = data;
+        mostrarProductos(data);
+    } catch (err) {
+        console.error("❌ ERROR:", err);
+        alert("Error cargando productos");
+    }
 }
 
 // DETALLE PRODUCTO
