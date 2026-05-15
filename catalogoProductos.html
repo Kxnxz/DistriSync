@@ -15,7 +15,7 @@
             <span>DistriSync</span>
         </div>
         <nav class="menu">
-            <a href="index.html">Inicio</a>
+            <a href="catalogoProductos.html">Inicio</a>
             <a href="miCuenta.html">Mi Cuenta</a>
             <a href="carrito.html">Carrito</a>
             <a href="dashboard.html" id="dashboardLink" style="display:none;">Dashboard</a>
@@ -23,18 +23,66 @@
     </header>
 
     <div class="container">
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Bienvenido a tu catálogo DistriSync</h1>
+                <p>Explora productos cuidadosamente seleccionados para tu negocio. Usa los filtros o busca por nombre para encontrar justo lo que necesitas.</p>
+                <a href="#productosGrid" class="hero-button">Ver productos</a>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <h2>Top categorías</h2>
+                    <ul>
+                        <li onclick="filtrarProductos('Piel sensible')">Piel sensible</li>
+                        <li onclick="filtrarProductos('Noche')">Noche</li>
+                        <li onclick="filtrarProductos('Sérum')">Sérum</li>
+                        <li onclick="filtrarProductos('Exfoliantes')">Exfoliantes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="search-row">
+            <input id="catalogSearch" type="search" placeholder="Buscar producto..." oninput="buscarProductos(this.value)">
+            <span class="search-note">Puedes buscar por nombre o categoría.</span>
+        </div>
+
+        <section class="featured-section">
+            <div class="section-header">
+                <h2>Productos destacados</h2>
+                <p>Encuentra las mejores opciones con stock disponible y precios especiales.</p>
+            </div>
+            <div id="featuredGrid" class="featured-grid"></div>
+        </section>
+
         <!-- Pestañas de categorías (Filtros) -->
         <div class="tabs">
             <button class="tab-btn active" onclick="filtrarProductos('todos')">📋 Todos</button>
-            <button class="tab-btn" onclick="filtrarProductos('Maquillaje')">💄 Maquillaje</button>
-            <button class="tab-btn" onclick="filtrarProductos('Skincare')">🧴 Skincare</button>
-            <button class="tab-btn" onclick="filtrarProductos('Capilar')">💇 Capilar</button>
+            <button class="tab-btn" onclick="filtrarProductos('Piel sensible')">🧴 Piel sensible</button>
+            <button class="tab-btn" onclick="filtrarProductos('Noche')">🌙 Noche</button>
+            <button class="tab-btn" onclick="filtrarProductos('Sérum')">💧 Sérum</button>
+            <button class="tab-btn" onclick="filtrarProductos('Exfoliantes')">✨ Exfoliantes</button>
         </div>
 
         <!-- Contenedor donde el JS cargará las tarjetas -->
         <div id="productosGrid" class="products-grid">
             <!-- Los productos se cargan dinámicamente aquí -->
         </div>
+
+        <section class="catalog-benefits">
+            <div class="benefit-card">
+                <h3>Productos verificados</h3>
+                <p>Solo mostramos artículos con stock real y precios actualizados.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Atención experta</h3>
+                <p>Nos enfocamos en soluciones para tu negocio y pedidos rápidos.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Compra segura</h3>
+                <p>Tu información se mantiene protegida mientras navegas y compras.</p>
+            </div>
+        </section>
     </div>
 
     <footer>

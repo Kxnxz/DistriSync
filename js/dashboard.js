@@ -1,5 +1,12 @@
 const API_PRODUCTO = 'php/productos_crud.php';
 
+const categoriaMap = {
+    1: 'Piel sensible',
+    2: 'Noche',
+    3: 'Sérum',
+    4: 'Exfoliantes'
+};
+
 let productosDashboard = [];
 
 // 🔒 PROTEGER DASHBOARD
@@ -80,20 +87,21 @@ function renderProductos(lista) {
     }
 
     lista.forEach(p => {
+        const nombreCategoria = categoriaMap[p.categoria] || p.categoria;
 
         tbody.innerHTML += `
             <tr>
                 <td>${p.id_producto}</td>
                 <td>${p.nombre}</td>
-                <td>${p.categoria}</td>
+                <td>${nombreCategoria}</td>
                 <td>$${Number(p.precio).toFixed(2)}</td>
                 <td>${p.stock}</td>
                 <td>
-                    <button onclick="editarProducto(${p.id_producto})">
+                    <button class="btn-table" onclick="editarProducto(${p.id_producto})">
                         Editar
                     </button>
 
-                    <button onclick="eliminarProducto(${p.id_producto})">
+                    <button class="btn-table btn-delete" onclick="eliminarProducto(${p.id_producto})">
                         Eliminar
                     </button>
                 </td>

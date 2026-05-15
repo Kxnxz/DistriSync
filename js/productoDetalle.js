@@ -13,10 +13,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function cargarDetalle(producto) {
 
+    const categoriaMap = {
+        1: 'Piel sensible',
+        2: 'Noche',
+        3: 'Sérum',
+        4: 'Exfoliantes'
+    };
+
     document.getElementById('detalleNombre').textContent = producto.nombre;
     document.getElementById('detalleImagen').src = producto.imagen || 'v1.png';
     document.getElementById('detallePrecio').textContent = `$${Number(producto.precio).toFixed(2)}`;
-    document.getElementById('detalleCategoria').textContent = producto.categoria || "Sin categoría";
+    document.getElementById('detalleCategoria').textContent = categoriaMap[producto.categoria] || producto.categoria || "Sin categoría";
     document.getElementById('detalleDescripcion').textContent = producto.descripcion || "Sin descripción";
 
     // 🔥 STOCK BIEN

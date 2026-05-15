@@ -38,6 +38,12 @@ table { width: 100%; border-collapse: collapse; margin-top: 20px; }
 th, td { padding: 15px; text-align: left; border-bottom: 1px solid #E7DAF8; }
 th { background: #E7DAF8; color: #4B0082; font-weight: 600; }
 
+table button { border: none; padding: 10px 16px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
+table button:hover { transform: translateY(-1px); }
+
+table button.btn-table { background: #4B0082; color: white; }
+table button.btn-delete { background: #e24f5e; color: white; }
+
 /* MODAL PERFECTO */
 .modal {
     position: fixed !important;
