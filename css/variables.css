@@ -1,0 +1,48 @@
+/*
+ * =============================================
+ *  DistriSync — Paleta de Colores Central
+ *  Basada en styleLogin.css
+ * =============================================
+ *  Para usar en cualquier archivo CSS:
+ *  @import url('variables.css');
+ * =============================================
+ */
+
+:root {
+    /* ---- Colores principales ---- */
+    --color-primary:        #4B0082;   /* Índigo profundo — color principal */
+    --color-primary-hover:  #6B2DA0;   /* Hover de botones primarios */
+    --color-primary-dark:   #31005f;   /* Variante más oscura */
+
+    /* ---- Fondos ---- */
+    --color-bg-page:        #c19ddd;   /* Fondo de página (igual que Login) */
+    --color-bg-surface:     #f3e8ff;   /* Cards, sidebars, elementos destacados */
+    --color-bg-light:       #faf3ff;   /* Filas de tabla hover, fondos muy suaves */
+    --color-bg-white:       #ffffff;   /* Blanco puro */
+
+    /* ---- Acento claro ---- */
+    --color-accent:         #E7DAF8;   /* Bordes suaves, badges, table headers */
+    --color-accent-dark:    #d4b8ea;   /* Hover de elementos accent */
+
+    /* ---- Textos ---- */
+    --color-text-primary:   #4B0082;   /* Texto principal */
+    --color-text-secondary: #6b4e8a;   /* Texto secundario / subtítulos */
+    --color-text-dark:      #3a1365;   /* Texto oscuro */
+    --color-text-white:     #ffffff;   /* Texto sobre fondos oscuros */
+    --color-text-placeholder: #8B4BB0; /* Placeholder de inputs */
+
+    /* ---- Bordes ---- */
+    --color-border:         rgba(75, 0, 130, 0.3);  /* Borde principal */
+    --color-border-light:   rgba(75, 0, 130, 0.08); /* Borde suave */
+
+    /* ---- Sombras ---- */
+    --shadow-sm:  0 4px 10px  rgba(75, 0, 130, 0.10);
+    --shadow-md:  0 10px 30px rgba(75, 0, 130, 0.12);
+    --shadow-lg:  0 18px 40px rgba(75, 0, 130, 0.15);
+
+    /* ---- Estados de alerta ---- */
+    --color-danger:       #ff6b6b;
+    --color-danger-hover: #ee5a52;
+    --color-success:      #4caf7d;
+    --color-warning:      #f0a500;
+}

@@ -1,3 +1,5 @@
+@import url('variables.css');
+
 /* Paleta de colores y estilos */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap');
 
@@ -21,7 +23,7 @@
 /* Fuente principal */
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #c19ddd;
+  background: var(--color-bg-page);
 }
 
 /* Topbar */
@@ -29,8 +31,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #4B0082;
-  color: #ffffff;
+  background: var(--color-primary);
+  color: var(--color-text-white);
   padding: 10px 20px;
 }
 
@@ -62,14 +64,14 @@ body {
   padding: 6px;
   border-radius: 5px;
   border: none;
-  background: #e6d4f5;
-  color: #4B0082;
+  background: var(--color-accent);
+  color: var(--color-primary);
   font-family: 'Montserrat', sans-serif;
 }
 
 /* Menú */
 .menu a {
-  color: #ffffff;
+  color: var(--color-text-white);
   margin-left: 15px;
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
@@ -91,7 +93,7 @@ body {
 /* Sidebar */
 .sidebar {
   width: 250px;
-  background: #f3e8ff;
+  background: var(--color-bg-surface);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(75, 0, 130, 0.3);
@@ -103,8 +105,8 @@ body {
 .sidebar h3 {
   font-family: 'Playfair Display', serif;
   margin-bottom: 20px;
-  color: #4B0082;
-  border-bottom: 2px solid #e6d4f5;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-accent);
   padding-bottom: 10px;
 }
 
@@ -117,7 +119,7 @@ body {
 .summary-item {
   display: flex;
   justify-content: space-between;
-  color: #4B0082;
+  color: var(--color-primary);
   font-size: 14px;
 }
 
@@ -126,11 +128,11 @@ body {
   font-size: 18px;
   border-top: 2px solid #e6d4f5;
   padding-top: 10px;
-  color: #4B0082;
+  color: var(--color-primary);
 }
 
 .btn-checkout {
-  background: #4B0082;
+  background: var(--color-primary);
   color: white;
   padding: 12px;
   border: none;
@@ -142,13 +144,13 @@ body {
 }
 
 .btn-checkout:hover {
-  background: #6B2DA0;
+  background: var(--color-primary-hover);
   transform: translateY(-2px);
 }
 
 .btn-seguir-comprando {
-  background: #e6d4f5;
-  color: #4B0082;
+  background: var(--color-accent);
+  color: var(--color-primary);
   padding: 10px;
   border: none;
   border-radius: 8px;
@@ -158,7 +160,7 @@ body {
 }
 
 .btn-seguir-comprando:hover {
-  background: #d4b8ea;
+  background: var(--color-accent-dark);
 }
 
 /* Content */
@@ -167,7 +169,7 @@ body {
 }
 
 .content h1 {
-  color: #4B0082;
+  color: var(--color-primary);
   margin-bottom: 20px;
   font-size: 28px;
 }
@@ -190,21 +192,21 @@ body {
 }
 
 .btn-limpiar {
-  background: #ff6b6b;
+  background: var(--color-danger);
   color: white;
 }
 
 .btn-limpiar:hover {
-  background: #ee5a52;
+  background: var(--color-danger-hover);
 }
 
 .btn-actualizar {
-  background: #4B0082;
+  background: var(--color-primary);
   color: white;
 }
 
 .btn-actualizar:hover {
-  background: #6B2DA0;
+  background: var(--color-primary-hover);
 }
 
 /* Cart Items */
@@ -215,7 +217,7 @@ body {
 }
 
 .cart-item {
-  background: #f3e8ff;
+  background: var(--color-bg-surface);
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -246,14 +248,14 @@ body {
 
 .cart-item-name {
   font-family: 'Playfair Display', serif;
-  color: #4B0082;
+  color: var(--color-primary);
   font-size: 18px;
   margin-bottom: 8px;
   font-weight: 600;
 }
 
 .cart-item-price {
-  color: #4B0082;
+  color: var(--color-primary);
   font-size: 16px;
   margin-bottom: 12px;
 }
@@ -266,11 +268,11 @@ body {
   width: fit-content;
   padding: 5px 10px;
   border-radius: 8px;
-  border: 2px solid #e6d4f5;
+  border: 2px solid var(--color-accent);
 }
 
 .cantidad-control button {
-  background: #4B0082;
+  background: var(--color-primary);
   color: white;
   border: none;
   width: 30px;
@@ -282,7 +284,7 @@ body {
 }
 
 .cantidad-control button:hover {
-  background: #6B2DA0;
+  background: var(--color-primary-hover);
 }
 
 .cantidad-control input {
@@ -290,7 +292,7 @@ body {
   text-align: center;
   border: none;
   font-weight: 600;
-  color: #4B0082;
+  color: var(--color-primary);
 }
 
 .cart-item-subtotal {
@@ -299,13 +301,13 @@ body {
 
 .subtotal-price {
   font-weight: 700;
-  color: #4B0082;
+  color: var(--color-primary);
   font-size: 18px;
   margin-bottom: 10px;
 }
 
 .btn-eliminar {
-  background: #ff6b6b;
+  background: var(--color-danger);
   color: white;
   padding: 8px 16px;
   border: none;
@@ -316,7 +318,7 @@ body {
 }
 
 .btn-eliminar:hover {
-  background: #ee5a52;
+  background: var(--color-danger-hover);
   transform: scale(1.05);
 }
 
@@ -324,9 +326,9 @@ body {
 .empty-cart {
   text-align: center;
   padding: 60px 20px;
-  background: #f3e8ff;
+  background: var(--color-bg-surface);
   border-radius: 10px;
-  color: #4B0082;
+  color: var(--color-primary);
 }
 
 .empty-cart p {
@@ -335,7 +337,7 @@ body {
 }
 
 .empty-cart button {
-  background: #4B0082;
+  background: var(--color-primary);
   color: white;
   padding: 12px 30px;
   border: none;
@@ -346,7 +348,7 @@ body {
 }
 
 .empty-cart button:hover {
-  background: #6B2DA0;
+  background: var(--color-primary-hover);
 }
 
 /* Responsive */
