@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajustes - DistriSync</title>
+    <link rel="stylesheet" href="css/styleAjustes.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="page-header">
+            <div>
+                <h1>Ajustes</h1>
+                <p>Configura la tienda, el perfil y las preferencias.</p>
+            </div>
+            <a class="btn btn-secondary" href="dashboard.html">← Volver al Dashboard</a>
+        </header>
+
+        <section class="card">
+            <h2>Preferencias de la tienda</h2>
+            <form id="formAjustes">
+                <label>
+                    Nombre de la tienda
+                    <input type="text" id="tiendaNombre" placeholder="DistriSync" required>
+                </label>
+                <label>
+                    Correo de contacto
+                    <input type="email" id="tiendaEmail" placeholder="contacto@distrisync.com" required>
+                </label>
+                <label>
+                    Moneda
+                    <select id="tiendaMoneda">
+                        <option value="USD">USD</option>
+                        <option value="COP">COP</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </label>
+                <button type="submit" class="btn btn-action">Guardar cambios</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="js/ajustes.js"></script>
+</body>
+</html>

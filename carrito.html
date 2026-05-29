@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DistriSync - Mi Carrito</title>
+    <link rel="stylesheet" href="css/styleCarrito.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="logo">
+            <img src="v1.png" alt="DistriSync Logo">
+            <span>DistriSync</span>
+        </div>
+
+        <div class="search">
+            <select>
+                <option>Todas las categorias</option>
+            </select>
+            <input type="text" placeholder="Escribir">
+        </div>
+
+        <nav class="menu">
+            <a href="catalogoProductos.html">Catálogo</a>
+            <a href="#">Mi Cuenta</a>
+            <a href="carrito.html">Mi Carro</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Resumen</h3>
+            <div class="summary">
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Impuesto:</span>
+                    <span id="impuesto">$0.00</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+                <button class="btn-checkout">Continuar Compra</button>
+                <button class="btn-seguir-comprando" onclick="location.href='catalogoProductos.html'">Seguir Comprando</button>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="content">
+            <h1>🛒 Mi Carrito de Compras</h1>
+
+            <div class="cart-actions">
+                <button class="btn-limpiar" onclick="limpiarCarrito()">🗑️ Limpiar Carrito</button>
+                <button class="btn-actualizar" onclick="actualizarCarrito()">🔄 Actualizar</button>
+            </div>
+
+            <div class="cart-items" id="cartItems">
+                <!-- Los items se cargan aquí -->
+            </div>
+
+            <div class="empty-cart" id="emptyCart" style="display: none;">
+                <p>Tu carrito está vacío</p>
+                <button onclick="location.href='catalogoProductos.html'">Ir al Catálogo</button>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="js/carrito.js"></script>
+</body>
+
+</html>

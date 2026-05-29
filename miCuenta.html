@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DistriSync - Mi Cuenta</title>
+    <link rel="stylesheet" href="css/styleDashboard.css" />
+</head>
+<body>
+    <div class="sidebar">
+        <img src="v1.png" alt="Logo" />
+        <ul>
+            <li id="dashboardLink" onclick="window.location.href='dashboard.html'" style="display:none;">🏠 Dashboard</li>
+            <li class="active">👤 Mi Cuenta</li>
+            <li onclick="window.location.href='catalogoProductos.html'">🛍️ Catálogo</li>
+            <li onclick="window.location.href='carrito.html'">🛒 Carrito</li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <h1>Mi Cuenta</h1>
+
+        <div class="topbar">
+            <span>Mi Panel de Usuario</span>
+            <div class="top-buttons">
+                <a href="catalogoProductos.html">🛍️ Catálogo</a>
+                <a href="carrito.html">🛒 Carrito</a>
+                <a href="#" id="logoutBtn" onclick="event.preventDefault(); logout();">🚪 Cerrar Sesión</a>
+            </div>
+        </div>
+
+    <div class="card" id="profileCard">
+            <h2>👤 Perfil</h2>
+            <p><strong>Nombre:</strong> <span id="perfilNombre">-</span></p>
+            <p><strong>Email:</strong> <span id="perfilEmail">-</span></p>
+            <p><strong>Rol:</strong> <span id="perfilRol">-</span></p>
+            <button class="btn-action" onclick="mostrarFormEditar()" style="margin-top: 15px;">✏️ Editar Perfil</button>
+        </div>
+
+        <div class="card" id="editarCard" style="display:none; background: #f3e8ff; border: 2px solid #e6d4f5;">
+            <h2>✏️ Editar Perfil</h2>
+            <div style="display:flex; flex-direction: column; gap:12px; margin-top: 15px;">
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #4B0082;">Nombre:</label>
+                    <input type="text" id="editNombre" placeholder="Tu nombre" style="width: 100%; padding:10px; border: 2px solid #e6d4f5; border-radius: 5px; font-family: 'Montserrat', sans-serif;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #4B0082;">Email:</label>
+                    <input type="email" id="editEmail" placeholder="tu@email.com" style="width: 100%; padding:10px; border: 2px solid #e6d4f5; border-radius: 5px; font-family: 'Montserrat', sans-serif;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #4B0082;">Nueva Contraseña (opcional):</label>
+                    <input type="password" id="editPassword" placeholder="Dejar en blanco para no cambiar" style="width: 100%; padding:10px; border: 2px solid #e6d4f5; border-radius: 5px; font-family: 'Montserrat', sans-serif;">
+                </div>
+                <div style="display:flex; gap:10px; margin-top: 10px;">
+                    <button class="btn-action" onclick="guardarCambiosPerfil()" style="flex:1; background: #4B0082; color:white; padding:12px; border:none; border-radius:5px; cursor:pointer; font-weight: 600; transition: 0.2s;">💾 Guardar Cambios</button>
+                    <button class="btn-action btn-danger" onclick="cancelarEditar()" style="flex:1; background: #ff6b6b; color:white; padding:12px; border:none; border-radius:5px; cursor:pointer; font-weight: 600; transition: 0.2s;">✕ Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="ordersCard">
+            <h2>📦 Historial de Pedidos</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Orden</th>
+                            <th>Fecha</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/miCuenta.js"></script>
+</body>
+</html>

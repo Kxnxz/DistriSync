@@ -1,0 +1,33 @@
+﻿/* 
+ * Archivo estilos.css - ORGANIZADO POR MODULO
+ * 
+ * Cada módulo tiene su propio archivo CSS:
+ * 
+ * 1. styleLogin.css
+ *    - Usado por: LoginDistriSync.html
+ *    - Estilos para la página de login
+ * 
+ * 2. styleRegistro.css
+ *    - Usado por: registro.html
+ *    - Estilos para la página de registro
+ * 
+ * 3. styleDashboard.css
+ *    - Usado por: dashboard.html
+ *    - Estilos para el dashboard
+ * 
+ * 4. styleCatalogo.css
+ *    - Usado por: catalogoProductos.html
+ *    - Estilos para el catálogo de productos
+ * 
+ * Este archivo se mantiene como referencia y no se utiliza directamente.
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}

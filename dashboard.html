@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>DistriSync - Dashboard Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styleDashboard.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <img src="v1.png" alt="Logo" />
+        <ul>
+            <li class="active" onclick="cambiarSeccion('estadisticas', this)">📊 Estadísticas</li>
+            <li onclick="cambiarSeccion('productos', this)">📦 Productos</li>
+            <li onclick="cambiarSeccion('clientes', this)">👤 Clientes</li>
+            <li onclick="cambiarSeccion('ventas', this)">💰 Ventas</li>
+        </ul>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <h1>Panel de Control - DistriSync</h1>
+        <div class="topbar">
+            <span>Administrador</span>
+            <div class="top-buttons">
+                <a href="inventario.html">📦 Inventario</a>
+                <a href="pedidos.html">📋 Pedidos</a>
+                <a href="analytics.html">📈 Analytics</a>
+                <a href="ajustes.html">⚙️ Ajustes</a>
+            </div>
+        </div>
+
+        <!-- ESTADÍSTICAS -->
+        <div id="estadisticas" class="section active">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Sales Totales</h3>
+                    <div class="number" id="totalSales">$0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Órdenes</h3>
+                    <div class="number" id="totalOrdenes">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Clientes</h3>
+                    <div class="number" id="totalClientes">0</div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Resumen Rápido</h2>
+                <p>✓ Ingresos del mes: <strong id="ingresosMes">$0</strong></p>
+                <p>✓ Productos en stock: <strong id="productosStock">0</strong></p>
+                <p>✓ Órdenes pendientes: <strong id="ordenesPendientes">0</strong></p>
+            </div>
+        </div>
+
+        <!-- PRODUCTOS -->
+        <div id="productos" class="section">
+            <div class="card">
+                <h2>Gestión de Productos</h2>
+                <button class="btn btn-action" onclick="window.mostrarModal('crear')">➕ Agregar Producto</button>
+                <table id="tablaProductos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CLIENTES -->
+        <div id="clientes" class="section">
+            <div class="card">
+                <h2>Gestión de Clientes</h2>
+                <table id="tablaClientes">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Compras</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VENTAS -->
+        <div id="ventas" class="section">
+            <div class="card">
+                <h2>Historial de Ventas</h2>
+                <table id="tablaVentas">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ANIMADO PRODUCTO -->
+    <div id="modalProducto" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitulo">➕ Agregar Producto</h3>
+            <form id="formProducto">
+                <input type="hidden" id="prodId">
+                <div class="input-group">
+                    <label>Nombre *</label>
+                    <input type="text" id="prodNombre" required>
+                </div>
+                <div class="input-group">
+                    <label>Precio ($)*</label>
+                    <input type="number" id="prodPrecio" step="0.01" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label>Stock *</label>
+                    <input type="number" id="prodStock" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label>Categoría *</label>
+                    <select id="prodCategoria" required>
+                        <option value="">Seleccionar</option>
+                        <option value="1">Piel sensible</option>
+                        <option value="2">Noche</option>
+                        <option value="3">Sérum</option>
+                        <option value="4">Exfoliantes</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-action">💾 Guardar</button>
+                    <button type="button" onclick="cerrarModal()" class="btn" style="background: #ccc; color: #333;">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
