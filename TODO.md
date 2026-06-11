@@ -1,1 +1,8 @@
-# Dashboard Admin Completo - PLAN EJECUTADO\n\n✅ **1. Dashboard productos DB CRUD** (modales animados)\n✅ **2. inventario.html** (gestión stock)\n✅ **3. analytics.html** (estadísticas avanzadas)\n✅ **4. ajustes.html** (configuración)\n✅ **5. CSS/JS separados por sección**\n✅ **6. PHP endpoints** (crear/editar/eliminar/listar)\n\n**Demo:** Login admin → Dashboard → **CRUD funcional DB** + nuevos links\n\n**¡COMPLETADO!** 🎉
+- [x] Revisar cómo se exporta CSV en `inventario` (no existe acción/handler para CSV actualmente).
+- [x] Editar `php/inventario.php` agregando `action=csv` para responder con `text/csv` y `Content-Disposition`.
+- [x] Editar `js/inventario.js` para agregar listener al botón `btnExportCsv` y descargar el CSV.
+- [ ] Verificar que el botón “Exportar CSV” funcione y descargue `inventario.csv`.
+
+
+
+

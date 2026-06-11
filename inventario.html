@@ -12,6 +12,12 @@
                 <h1>Inventario</h1>
                 <p>Controla el stock y el valor total de los productos.</p>
             </div>
+            <div class="acciones no-print">
+                <button id="btnExportCsv" class="btn">Exportar CSV</button>
+                <button onclick="window.print()" class="btn">Imprimir</button>
+            </div>
+
+            <script src="js/inventario.js"></script>
             <a class="btn" href="dashboard.html">← Volver al Dashboard</a>
         </header>
 
@@ -44,8 +50,6 @@
                 <tbody></tbody>
             </table>
         </section>
-    </div>
 
-    <script src="js/inventario.js"></script>
 </body>
 </html>
