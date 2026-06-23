@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DistriSync - Pasarela de Pago</title>
+  <link rel="stylesheet" href="css/stylePago.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="logo">
+      <img src="v1.png" alt="DistriSync Logo">
+      <span>DistriSync</span>
+    </div>
+
+    <div class="search">
+      <select>
+        <option>Todas las categorias</option>
+      </select>
+      <input type="text" placeholder="Escribir" disabled>
+    </div>
+
+    <nav class="menu">
+      <a href="catalogoProductos.html">Catálogo</a>
+      <a href="#">Mi Cuenta</a>
+      <a href="carrito.html">Carro</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h3>Resumen</h3>
+      <div class="summary">
+        <div class="summary-item">
+          <span>Subtotal:</span>
+          <span id="subtotal">$0.00</span>
+        </div>
+        <div class="summary-item">
+          <span>Impuesto:</span>
+          <span id="impuesto">$0.00</span>
+        </div>
+        <div class="summary-item total">
+          <span>Total:</span>
+          <span id="total">$0.00</span>
+        </div>
+
+        <div class="payment-methods">
+          <div class="method-title">Método de pago</div>
+          <div class="radio-row">
+            <label class="radio">
+              <input type="radio" name="metodo" value="tarjeta" checked />
+              <span>Tarjeta</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="metodo" value="pse" />
+              <span>PSE</span>
+            </label>
+          </div>
+          <div class="method-hint">(Demo) La compra se confirma con el botón.</div>
+        </div>
+
+        <button id="btnPagar" class="btn-checkout">Pagar ahora</button>
+        <button class="btn-seguir-comprando" onclick="location.href='carrito.html'">Volver al Carrito</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <h1>💳 Pasarela de Pago</h1>
+
+      <div class="panel">
+        <div class="panel-header">Datos de facturación</div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>Nombre completo</label>
+            <input id="billNombre" type="text" placeholder="Tu nombre" required />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input id="billEmail" type="email" placeholder="tu@email.com" required />
+          </div>
+          <div class="field">
+            <label>Número de documento</label>
+            <input id="billDocumento" type="text" placeholder="Opcional" />
+          </div>
+          <div class="field">
+            <label>Dirección</label>
+            <input id="billDireccion" type="text" placeholder="Calle y número" />
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">Tarjeta</div>
+
+        <div class="form-grid">
+          <div class="field field-span2">
+            <label>Número de tarjeta</label>
+            <input id="cardNumero" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" required />
+          </div>
+          <div class="field">
+            <label>Vencimiento</label>
+            <input id="cardVenc" type="text" placeholder="MM/AA" required />
+          </div>
+          <div class="field">
+            <label>CVV</label>
+            <input id="cardCvv" type="password" inputmode="numeric" placeholder="123" required />
+          </div>
+        </div>
+
+        <div class="notice">
+          Al hacer clic en <b>Pagar ahora</b> se registra la venta en la base de datos.
+        </div>
+      </div>
+
+      <div id="alertaPago" class="alert" style="display:none;"></div>
+    </main>
+  </div>
+
+  <script src="js/pago.js"></script>
+  <script>
+    // Botón se activa desde js/pago.js
+  </script>
+</body>
+</html>
+

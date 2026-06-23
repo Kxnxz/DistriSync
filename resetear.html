@@ -2,18 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nueva contraseña</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DistriSync - Cambiar contraseña</title>
+
+    <link rel="stylesheet" href="css/styleLogin.css" />
 </head>
 <body>
 
-    <h2>Nueva contraseña</h2>
+    <div class="container">
+        <div class="login-card">
+            <h1>Cambiar contraseña</h1>
+            <p>Introduce tu nueva contraseña</p>
 
-    <form id="resetForm">
-        <input type="password" id="password" placeholder="Nueva contraseña" required>
-        <button type="submit">Cambiar contraseña</button>
-    </form>
+            <form id="resetForm">
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Nueva contraseña" required>
+                </div>
 
-<script src="js/resetear.js"></script>
+                <button type="submit" class="btn">Cambiar contraseña</button>
+            </form>
 
+            <p class="registro-link">
+                <a href="LoginDistriSync.html">Volver al inicio de sesión</a>
+            </p>
+        </div>
+
+        <div class="right-section">
+            <img src="v1.png" width="300" />
+            <p>“DistriSync. Te facilita la conexión con tus productos”</p>
+        </div>
+    </div>
+
+    <script src="js/restear.js"></script>
 </body>
 </html>

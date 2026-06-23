@@ -1,5 +1,4 @@
-console.log("JS cargado");
-alert("version999");
+
 
 document.getElementById("recoverForm").addEventListener("submit", async (e) => {
 

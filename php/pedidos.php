@@ -16,7 +16,7 @@ switch ($action) {
 function listarPedidos() {
     global $conn;
 
-    $query = "SELECT v.id_venta, v.fecha, v.total, u.nombre as cliente, v.estado
+$query = "SELECT v.id_venta, v.fecha, v.total, u.nombre as cliente
               FROM ventas v
               JOIN usuarios u ON v.id_usuario = u.id_usuario
               ORDER BY v.fecha DESC";

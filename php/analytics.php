@@ -26,10 +26,11 @@ function obtenerEstadisticas() {
     $resultClientes = $conn->query($queryClientes);
     $clientes = $resultClientes->fetch_assoc()['total'] ?? 0;
 
-    // Productos vendidos
-    $queryProductos = "SELECT SUM(cantidad) as total FROM detalle_venta";
+    // Productos vendidos (tabla real en la BD)
+    $queryProductos = "SELECT SUM(cantidad) as total FROM venta_detalle";
     $resultProductos = $conn->query($queryProductos);
     $productosVendidos = $resultProductos->fetch_assoc()['total'] ?? 0;
+
 
     // Crecimiento (simulado, último mes vs anterior)
     $crecimiento = 12.4; // Placeholder

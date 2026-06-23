@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // CARGAR DESDE SERVER
+// CARGAR DESDE SERVER
 async function cargarProductos() {
     console.log("🚀 Iniciando carga de productos...");
 
@@ -49,34 +50,85 @@ async function cargarProductos() {
 
         console.log("📦 PRODUCTOS:", data);
 
-        productos.todos = data.map(producto => ({
-            ...producto,
-            categoriaNombre: categoriaMap[producto.categoria] || producto.categoria || 'Sin categoría'
-        }));
+        // Relación nombre del producto -> imagen
+        // Nota: aquí deben coincidir EXACTO los nombres que devuelve la BD (producto.nombre)
+        const imagenesPorNombre = {
+            'Místico Crema de Noche': 'cremanoche.png',
+            'Minimal Sérum Facial': 'serum.png',
+            'Lavanda Dreams Aceite': 'lavanda.png',
+            'Antracita Exfoliante': 'exfoliante.png',
+            'Aura Hidratante': 'aura.png',
+            'Velvet Skin Sérum': 'velvet.png',
+            'Pure Glow Exfoliante': 'glow.png',
+            'Crema sin imagen': 'crema.png'
+        };
 
-        aplicarFiltros();
+        productos.todos = data.map(producto => {
+            const categoriaNombre =
+                categoriaMap[producto.categoria]
+                || producto.categoria
+                || 'Sin categoría';
+
+            const imgFromDb = producto.imagen ? String(producto.imagen).trim() : '';
+
+            // Defaults por categoría (si la BD trae v1.png o una imagen vacía)
+            const imagenPorCategoria = {
+                'Piel sensible': 'crema.png',
+                'Noche': 'cremanoche.png',
+                'Sérum': 'serum.png',
+                'Exfoliantes': 'exfoliante.png'
+            };
+
+            // 1) Si la BD trae una ruta o un nombre de archivo válido, lo respetamos
+            // 2) Si trae v1.png o viene vacío, resolvemos con fallback por NOMBRE (prioridad)
+            const esV1 = !imgFromDb || imgFromDb === 'v1.png' || imgFromDb === 'v1' || imgFromDb === 'v1.png ';
+
+            let imagen = '';
+
+            if (!esV1) {
+                imagen = imgFromDb.startsWith('imagenes/')
+                    ? imgFromDb
+                    : `imagenes/${imgFromDb}`;
+            }
+
+            // Fallback 2: por NOMBRE (prioridad para evitar que se repitan)
+            if (!imagen) {
+                const archivoPorNombre = imagenesPorNombre[producto.nombre];
+                imagen = archivoPorNombre ? `imagenes/${archivoPorNombre}` : '';
+            }
+
+            // Fallback 3: por categoría (último recurso antes del final)
+            if (!imagen) {
+                const archivoCategoria = imagenPorCategoria[categoriaNombre];
+                imagen = archivoCategoria ? `imagenes/${archivoCategoria}` : '';
+            }
+
+            // Fallback final
+            if (!imagen) imagen = 'imagenes/v1.png';
+
+            return {
+                ...producto,
+                categoriaNombre,
+                imagen
+            };
+        });
+
+
+        // Si hay filtros, aplicarlos; si no existe aplicarFiltros, renderizamos directo.
+        if (typeof aplicarFiltros === 'function') {
+            aplicarFiltros();
+        } else {
+            mostrarProductos(productos.todos);
+            mostrarDestacados(productos.todos);
+        }
+
     } catch (err) {
+
+
         console.error("❌ ERROR:", err);
+
         alert("Error cargando productos");
     }
-}
-
-function aplicarFiltros() {
-    let lista = productos.todos;
-
-    if (filtroCategoria !== 'todos') {
-        lista = lista.filter(p => p.categoriaNombre === filtroCategoria);
-    }
-
-    if (filtroBusqueda.trim() !== '') {
-        const query = filtroBusqueda.trim().toLowerCase();
-        lista = lista.filter(p =>
-            p.nombre.toLowerCase().includes(query) ||
-            p.categoriaNombre.toLowerCase().includes(query)
-        );
-    }
-
-    mostrarProductos(lista);
 }
 
 function mostrarProductos(lista) {
