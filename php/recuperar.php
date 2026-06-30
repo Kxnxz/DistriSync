@@ -84,7 +84,7 @@ if (!$update->execute()) {
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $basePath = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/\\');
-$link = $scheme . "://" . $host . $basePath . "/html/resetear.html?token=" . urlencode($token);
+$link = $scheme . "://" . $host . $basePath . "/html/reset.html?token=" . urlencode($token);
 
 $mail = new PHPMailer(true);
 
@@ -132,3 +132,4 @@ try {
 $conn->close();
 
 ?>
+

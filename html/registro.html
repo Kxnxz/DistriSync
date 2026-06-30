@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
@@ -6,7 +6,9 @@
         <title>Registro - DistriSync</title>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="../css/styleRegistro.css" />
+    <link rel="stylesheet" href="../css/styleGlobalBackground.css" />
+    <link rel="stylesheet" href="../css/styleRegistro.css" />
+
 
         <!-- Fuente -->
         <link
@@ -15,13 +17,25 @@
         />
     </head>
     <body>
+        <header class="page-header">
+            <div class="header-brand">
+                <img src="../v1.png" alt="DistriSync" />
+                <span>DistriSync</span>
+            </div>
+            <nav class="header-actions">
+                <a href="index.html">Inicio</a>
+                <a href="login.html">Iniciar sesión</a>
+            </nav>
+
+        </header>
+
         <div class="container">
             <div class="login-card">
                 <h1>Crear cuenta</h1>
-                <p>Regi­strate en DistriSync</p>
+                <p>Regístrate como Cliente o Proveedor para peluquerías y tiendas.</p>
 
                 <form id="registroForm">
-                    <div class="input-group">
+                    <div class="input-group double">
                         <input
                             type="text"
                             id="nombre"
@@ -29,11 +43,11 @@
                             required
                         />
                         <input
-                         type="text"
-                         id="apellido"
-                         placeholder="Apellido"
-                          required
-                          />
+                            type="text"
+                            id="apellido"
+                            placeholder="Apellido"
+                            required
+                        />
                     </div>
 
                     <div class="input-group">
@@ -43,6 +57,15 @@
                             placeholder="Email"
                             required
                         />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="rol">Tipo de cuenta</label>
+                        <select id="rol" required>
+                            <option value="cliente">Cliente (Peluquería)</option>
+                            <option value="distribuidor">Proveedor</option>
+                        </select>
+                        <p class="role-note">Selecciona Cliente si eres peluquería o Proveedor si vendes productos.</p>
                     </div>
 
                     <div class="input-group">
@@ -58,19 +81,32 @@
 
                     <p class="registro-link">
                         ¿Ya tienes cuenta?
-                        <a href="LoginDistriSync.html">Inicia sesión</a>
+                        <a href="login.html">Inicia sesión</a>
                     </p>
                 </form>
             </div>
 
-            <div class="right-section">
-                <img src="../v1.png" width="300" />
-                <p>"DistriSync. Te facilita la conexion con tus productos"</p>
+                <div class="right-section about-panel">
+                <div class="about-header">
+                    <img src="../v1.png" alt="DistriSync logo" class="about-logo" />
+
+                    <div>
+                        <span>Quiénes somos</span>
+                        <p>Somos DistriSync, la red que une peluquerías con proveedores de productos profesionales de forma fácil y confiable.</p>
+                    </div>
+                </div>
+                <ul>
+                    <li>Pedidos rápidos con stock real.</li>
+                    <li>Fácil búsqueda por categoría.</li>
+                    <li>Interfaz optimizada para tu negocio.</li>
+                </ul>
             </div>
         </div>
 
+        <script src="../js/ui.js"></script>
         <script src="../js/registro.js"></script>
 
         
     </body>
 </html> 
+

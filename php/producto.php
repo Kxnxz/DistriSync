@@ -10,7 +10,21 @@ if ($action !== '' && $action !== 'listar') {
     exit;
 }
 
-$sql = "SELECT id_producto, nombre, precio, stock, imagen, id_categoria as categoria, '' as descripcion FROM productos";
+$proveedorId = isset($_GET['proveedorId']) ? trim($_GET['proveedorId']) : '';
+
+// Si proveedorId viene informado, filtramos productos por ese proveedor.
+// Esto hace que proveedorProductos.html muestre solo los productos del proveedor.
+$sqlBase = "SELECT p.id_producto, p.nombre, p.precio, p.stock, p.imagen, p.id_categoria as categoria,
+                   '' as descripcion,
+                   u.nombre as proveedor_nombre
+            FROM productos p
+            LEFT JOIN usuarios u ON u.id_usuario = p.id_proveedor";
+
+$sql = $sqlBase;
+if ($proveedorId !== '' && is_numeric($proveedorId)) {
+    $sql .= " WHERE p.id_proveedor = " . (int)$proveedorId;
+}
+
 $result = $conn->query($sql);
 
 $data = [];

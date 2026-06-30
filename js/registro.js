@@ -10,7 +10,11 @@ document.getElementById("registroForm").addEventListener("submit", async functio
     const rol = document.getElementById("rol") ? document.getElementById("rol").value : "cliente";
 
     if (!nombre || !email || !password) {
-        alert("Todos los campos son obligatorios");
+        if (typeof mostrarError === 'function') {
+            mostrarError("Todos los campos son obligatorios");
+        } else {
+            alert("Todos los campos son obligatorios");
+        }
         return;
     }
 
@@ -32,13 +36,27 @@ document.getElementById("registroForm").addEventListener("submit", async functio
         const data = await response.json();
 
         if (data.success) {
-            alert("Registro exitoso");
-            window.location.href = "LoginDistriSync.html";
+            if (typeof mostrarExito === 'function') {
+                mostrarExito("Registro exitoso");
+            } else {
+                alert("Registro exitoso");
+            }
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 900);
         } else {
-            alert(data.message || "Error en registro");
+            if (typeof mostrarError === 'function') {
+                mostrarError(data.message || "Error en registro");
+            } else {
+                alert(data.message || "Error en registro");
+            }
         }
     } catch (err) {
         console.error(err);
-        alert("Error de conexión, revisa consola");
+        if (typeof mostrarError === 'function') {
+            mostrarError("Error de conexión, revisa consola");
+        } else {
+            alert("Error de conexión, revisa consola");
+        }
     }
 });

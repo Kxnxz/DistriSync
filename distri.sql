@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-06-2026 a las 17:56:58
+-- Tiempo de generación: 30-06-2026 a las 02:31:55
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -83,6 +83,7 @@ CREATE TABLE `productos` (
   `ml` int(11) DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
   `id_categoria` int(11) DEFAULT NULL,
+  `id_proveedor` int(11) DEFAULT NULL,
   `imagen` varchar(255) DEFAULT 'v1.png',
   `stock` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -91,14 +92,14 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id_producto`, `codigo`, `nombre`, `color`, `ml`, `precio`, `id_categoria`, `imagen`, `stock`) VALUES
-(1, NULL, 'Místico Crema de Noche', NULL, NULL, 28.50, 2, 'v1.png', 16),
-(2, NULL, 'Minimal Sérum Facial', NULL, NULL, 34.20, 3, 'v1.png', 8),
-(3, NULL, 'Lavanda Dreams Aceite', NULL, NULL, 18.75, 1, 'v1.png', 23),
-(4, NULL, 'Antracita Exfoliante', NULL, NULL, 22.90, 4, 'v1.png', 33),
-(5, NULL, 'Aura Hidratante', NULL, NULL, 25.00, 1, 'v1.png', 14),
-(6, NULL, 'Velvet Skin Sérum', NULL, NULL, 31.80, 3, 'v1.png', 12),
-(8, NULL, 'Pure Glow Exfoliante', NULL, NULL, 21.50, 4, 'v1.png', 20);
+INSERT INTO `productos` (`id_producto`, `codigo`, `nombre`, `color`, `ml`, `precio`, `id_categoria`, `id_proveedor`, `imagen`, `stock`) VALUES
+(1, NULL, 'Místico Crema de Noche', NULL, NULL, 28.50, 2, 13, 'v1.png', 16),
+(2, NULL, 'Minimal Sérum Facial', NULL, NULL, 34.20, 3, 13, 'v1.png', 8),
+(3, NULL, 'Lavanda Dreams Aceite', NULL, NULL, 18.75, 1, 13, 'v1.png', 23),
+(4, NULL, 'Antracita Exfoliante', NULL, NULL, 22.90, 4, 13, 'v1.png', 33),
+(5, NULL, 'Aura Hidratante', NULL, NULL, 25.00, 1, 13, 'v1.png', 14),
+(6, NULL, 'Velvet Skin Sérum', NULL, NULL, 31.80, 3, 13, 'v1.png', 12),
+(8, NULL, 'Pure Glow Exfoliante', NULL, NULL, 21.50, 4, 13, 'v1.png', 20);
 
 -- --------------------------------------------------------
 
@@ -133,7 +134,9 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `password`, `fecha_crea
 (8, 'prueba', 'prueba@gmail.com', '$2y$10$urFKj56f2plzBcgYhVA42uvQ0wWzJqDJsmKxaTfiYnJ4WHcu79jFe', '2026-04-28 12:58:40', 0, 'cliente', NULL, NULL, NULL),
 (9, 'andres', 'paez@gmail.com', '$2y$10$urFKj56f2plzBcgYhVA42uvQ0wWzJqDJsmKxaTfiYnJ4WHcu79jFe', '2026-04-29 12:31:56', 0, 'cliente', 'paez', '905d84466a9a78715031a17cd88992d7c06886a28dac86c97abd25b3c36c49ce', '2026-05-29 19:01:54'),
 (10, 'andres', 'soto@gmail.com', '$2y$10$urFKj56f2plzBcgYhVA42uvQ0wWzJqDJsmKxaTfiYnJ4WHcu79jFe', '2026-04-29 12:37:15', 0, 'cliente', 'paez', NULL, NULL),
-(11, 'Andres', 'apaez3335@gmail.com', '$2y$10$urFKj56f2plzBcgYhVA42uvQ0wWzJqDJsmKxaTfiYnJ4WHcu79jFe', '2026-05-29 14:50:47', 0, 'cliente', 'Paez', '6e5b4db7fbe323e170dce746bf3ba50cb3de48bfb8c5b754467c70e22762a80c', '2026-06-18 19:26:21');
+(11, 'Andres', 'apaez3335@gmail.com', '$2y$10$urFKj56f2plzBcgYhVA42uvQ0wWzJqDJsmKxaTfiYnJ4WHcu79jFe', '2026-05-29 14:50:47', 0, 'cliente', 'Paez', '6e5b4db7fbe323e170dce746bf3ba50cb3de48bfb8c5b754467c70e22762a80c', '2026-06-18 19:26:21'),
+(12, 'Andres', 'mendez@gmail.com', '$2y$10$sQKNpd9cMV8oRVUg2qJK3ucop5WqkyUjn4yL4CKtuTWU2wzC.rKmq', '2026-06-29 22:53:23', 0, '', 'Mendez', NULL, NULL),
+(13, 'Proveedor Demo', 'proveedor@demo.com', '$2y$10$TU_HASH_AQUI', '2026-06-29 23:30:25', 0, 'proveedor', 'Demo', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -214,7 +217,8 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id_producto`),
-  ADD KEY `id_categoria` (`id_categoria`);
+  ADD KEY `id_categoria` (`id_categoria`),
+  ADD KEY `productos_ibfk_proveedor` (`id_proveedor`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -271,7 +275,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
@@ -306,7 +310,8 @@ ALTER TABLE `carrito_detalle`
 -- Filtros para la tabla `productos`
 --
 ALTER TABLE `productos`
-  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`);
+  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`),
+  ADD CONSTRAINT `productos_ibfk_proveedor` FOREIGN KEY (`id_proveedor`) REFERENCES `usuarios` (`id_usuario`);
 
 --
 -- Filtros para la tabla `ventas`

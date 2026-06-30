@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!producto) {
         alert("Producto no encontrado");
-        window.location.href = "catalogoProductos.html";
+        window.location.href = "catalogo.html";
         return;
     }
 

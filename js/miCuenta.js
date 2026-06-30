@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'));
 
     if (!usuarioActivo) {
-        alert('No hay sesión activa');
-        window.location.href = 'LoginDistriSync.html';
+        if (typeof mostrarError === 'function') {
+            mostrarError('No hay sesión activa');
+        }
+        window.location.href = 'login.html';
         return;
     }
 
@@ -85,7 +87,9 @@ async function guardarCambiosPerfil() {
     const password = document.getElementById('editPassword').value.trim();
 
     if (!nombre || !email) {
-        alert('Nombre y Email obligatorios');
+        if (typeof mostrarError === 'function') {
+            mostrarError('Nombre y Email obligatorios');
+        }
         return;
     }
 
@@ -111,17 +115,24 @@ async function guardarCambiosPerfil() {
             localStorage.setItem('usuarioActivo', JSON.stringify(usuarioActivo));
             mostrarPerfil(usuarioActivo);
             cancelarEditar();
-            alert('Perfil actualizado');
+            if (typeof mostrarExito === 'function') {
+                mostrarExito('Perfil actualizado');
+            }
         } else {
-            alert(data.message || 'Error actualizando perfil');
+            if (typeof mostrarError === 'function') {
+                mostrarError(data.message || 'Error actualizando perfil');
+            }
         }
     } catch (err) {
         console.error(err);
-        alert('Error de conexión');
+        if (typeof mostrarError === 'function') {
+            mostrarError('Error de conexión');
+        }
     }
 }
 
 function logout() {
     localStorage.removeItem('usuarioActivo');
-    window.location.href = 'LoginDistriSync.html';
+    window.location.href = 'login.html';
 }
+

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!usuario || usuario.rol !== "admin") {
 
-        window.location.href = "catalogoProductos.html";
+        window.location.href = "catalogo.html";
         return;
     }
 

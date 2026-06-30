@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DistriSync - Productos por proveedor</title>
+  <link rel="stylesheet" href="../css/styleCatalogo.css" />
+</head>
+<body>
+  <header class="topbar landing-topbar">
+    <div class="logo">
+      <img src="../v1.png" alt="DistriSync Logo" />
+      <span>DistriSync</span>
+    </div>
+    <nav class="menu">
+      <a href="index.html">Inicio</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="miCuenta.html">Mi Cuenta</a>
+      <a href="carrito.html">Carrito</a>
+      <a href="dashboard.html" id="dashboardLink" style="display:none;">Dashboard</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Productos del proveedor</h1>
+        <p id="proveedorTitulo">Cargando...</p>
+        <button class="hero-button" style="display:inline-block; margin-top: 12px;" onclick="window.location.href='catalogo.html'">Volver al catálogo</button>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <h2>Filtrar rápido</h2>
+          <ul>
+            <li onclick="window.location.href='catalogo.html'">Cambiar proveedor</li>
+            <li onclick="scrollTo(0, document.body.scrollHeight)">Ver cards</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="search-row">
+      <input id="catalogSearch" type="search" placeholder="Buscar producto..." oninput="buscarProductos(this.value)" />
+      <span class="search-note">Puedes buscar por nombre o categoría.</span>
+    </div>
+
+    <div class="tabs" id="categoriaTabs" style="margin-bottom: 26px;">
+      <button class="tab-btn active" data-category="todos" onclick="filtrarProductos('todos')">Todos</button>
+      <button class="tab-btn" data-category="piel sensible" onclick="filtrarProductos('Piel sensible')">Piel sensible</button>
+      <button class="tab-btn" data-category="noche" onclick="filtrarProductos('Noche')">Noche</button>
+      <button class="tab-btn" data-category="sérum" onclick="filtrarProductos('Sérum')">Sérum</button>
+      <button class="tab-btn" data-category="exfoliantes" onclick="filtrarProductos('Exfoliantes')">Exfoliantes</button>
+    </div>
+
+    <div id="productosGrid" class="products-grid"></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 DistriSync - Todos los derechos reservados</p>
+  </footer>
+
+  <script src="../js/ui.js"></script>
+  <script src="../js/carrito.js"></script>
+  <script src="../js/proveedorProductos.js"></script>
+</body>
+</html>
+

@@ -24,7 +24,7 @@
         </div>
 
         <nav class="menu">
-            <a href="catalogoProductos.html">Catálogo</a>
+            <a href="catalogo.html">Catálogo</a>
             <a href="#">Mi Cuenta</a>
             <a href="carrito.html">Mi Carro</a>
         </nav>
@@ -48,9 +48,9 @@
                     <span>Total:</span>
                     <span id="total">$0.00</span>
                 </div>
-                <button class="btn-checkout" onclick="location.href='pasarelaPago.html'">Continuar Compra</button>
+                <button class="btn-checkout" onclick="location.href='pago.html'">Continuar Compra</button>
 
-                <button class="btn-seguir-comprando" onclick="location.href='catalogoProductos.html'">Seguir Comprando</button>
+                <button class="btn-seguir-comprando" onclick="location.href='catalogo.html'">Seguir Comprando</button>
             </div>
         </aside>
 
@@ -59,9 +59,10 @@
             <h1>🛒 Mi Carrito de Compras</h1>
 
             <div class="cart-actions">
-                <button class="btn-limpiar" onclick="limpiarCarrito()">🗑️ Limpiar Carrito</button>
-                <button class="btn-actualizar" onclick="actualizarCarrito()">🔄 Actualizar</button>
+                <button class="btn-limpiar" onclick="limpiarCarrito()">🧹 Limpiar</button>
+                <button class="btn-actualizar" onclick="actualizarCarrito()">✨ Actualizar</button>
             </div>
+
 
             <div class="cart-items" id="cartItems">
                 <!-- Los items se cargan aquí -->
@@ -69,7 +70,7 @@
 
             <div class="empty-cart" id="emptyCart" style="display: none;">
                 <p>Tu carrito está vacío</p>
-                <button onclick="location.href='catalogoProductos.html'">Ir al Catálogo</button>
+                <button onclick="location.href='catalogo.html'">Ir al Catálogo</button>
             </div>
 
         </main>
@@ -80,3 +81,4 @@
 </body>
 
 </html>
+

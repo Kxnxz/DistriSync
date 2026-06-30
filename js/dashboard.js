@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
 
     if (!usuario || usuario.rol !== 'admin') {
-        window.location.href = 'catalogoProductos.html';
+        window.location.href = 'catalogo.html';
         return;
     }
 
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('usuarioActivo');
-            window.location.href = 'LoginDistriSync.html';
+            window.location.href = 'login.html';
         });
     }
 
@@ -356,3 +356,4 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarClientes();
     cargarVentas();
 });
+

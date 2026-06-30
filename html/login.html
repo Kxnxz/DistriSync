@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DistriSync - Login</title>
+    <link rel="stylesheet" href="../css/styleGlobalBackground.css" />
+    <link rel="stylesheet" href="../css/styleLogin.css" />
+
+</head>
+
+<body>
+    <header class="page-header">
+            <div class="header-brand">
+                <img src="../v1.png" alt="DistriSync" />
+                <span>DistriSync</span>
+            </div>
+
+        <nav class="header-actions">
+            <a href="index.html">Inicio</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="login-card">
+            <h1>Bienvenido de nuevo</h1>
+            <p>Accede como Cliente o Proveedor usando tu email y contraseña.</p>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Email" required />
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Contraseña" required />
+                </div>
+
+                <button type="submit" class="btn">Ingresar</button>
+
+                <p class="registro-link">
+                    ¿No tienes cuenta?
+                    <a href="registro.html">Regístrate aquí</a>
+                </p>
+                <p class="forgot-link">
+                    <a href="recuperar.html">¿Olvidaste tu contraseña?</a>
+                </p>
+            </form>
+        </div>
+
+        <div class="right-section about-panel">
+            <div class="about-header">
+                <img src="../v1.png" alt="DistriSync logo" />
+                <div>
+                    <span>Quiénes somos</span>
+                    <p>Somos la plataforma que conecta a peluquerías y proveedores con un catálogo claro, stock real y un proceso de compras más rápido.</p>
+                </div>
+            </div>
+            <ul>
+                <li>Facilitamos pedidos y seguimiento.</li>
+                <li>Mostramos productos organizados por categoría.</li>
+                <li>Diseño pensado para negocios de belleza y distribución.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../js/ui.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+
+</html>

@@ -9,15 +9,18 @@
 </head>
 <body>
     <!-- Barra de navegación (Topbar) -->
-    <header class="topbar">
+    <header class="topbar landing-topbar">
         <div class="logo">
             <img src="../v1.png" alt="DistriSync Logo">
             <span>DistriSync</span>
         </div>
         <nav class="menu">
-            <a href="catalogoProductos.html">Inicio</a>
+            <a href="catalogo.html" id="inicioLink">Catálogo</a>
+
+
             <a href="miCuenta.html">Mi Cuenta</a>
-            <a href="carrito.html">Carrito</a>
+            <a href="carrito.html">🛒 Carrito</a>
+
             <a href="dashboard.html" id="dashboardLink" style="display:none;">Dashboard</a>
         </nav>
     </header>
@@ -49,22 +52,36 @@
 
         <section class="featured-section">
             <div class="section-header">
-                <h2>Productos destacados</h2>
-                <p>Encuentra las mejores opciones con stock disponible y precios especiales.</p>
+                <h2>Productos top</h2>
+                <p>Los más vendidos según stock y disponibilidad.</p>
             </div>
             <div id="featuredGrid" class="featured-grid"></div>
         </section>
 
-        <!-- Pestañas de categorías (Filtros) -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="filtrarProductos('todos')"> Todos</button>
-            <button class="tab-btn" onclick="filtrarProductos('Piel sensible')"> Piel sensible</button>
-            <button class="tab-btn" onclick="filtrarProductos('Noche')"> Noche</button>
-            <button class="tab-btn" onclick="filtrarProductos('Sérum')"> Sérum</button>
-            <button class="tab-btn" onclick="filtrarProductos('Exfoliantes')"> Exfoliantes</button>
-        </div>
+        <!-- PROVEEDORES -->
+        <section class="provider-section" style="margin-bottom: 40px;">
+            <div class="section-header" style="margin-bottom: 16px;">
+                <h2 style="font-size: 1.6rem;">Elige tu proveedor</h2>
+                <p style="margin-top: 6px;">Selecciona para ver su catálogo.</p>
+            </div>
+
+
+            <!-- CTA buttons -->
+            <div class="provider-cta-row">
+                <button id="btnProveedores" class="provider-pill active" onclick="setModoProveedores('todos')">Todos</button>
+                <button id="btnMejores" class="provider-pill" onclick="setModoProveedores('mejores')">Mejores proveedores</button>
+            </div>
+
+            <div id="proveedorTabs" class="tabs"></div>
+
+            <!-- Cards grid -->
+            <div id="proveedoresGrid" class="provider-cards-grid"></div>
+        </section>
+
+
 
         <!-- Imágenes de ejemplo (carpeta imagenes/) -->
+
         <!-- Estas imágenes se usan como fallback si el backend no devuelve un campo imagen -->
         <div style="display:none;" aria-hidden="true">
             <img src="../imagenes/aura.png" alt="aura">
@@ -103,7 +120,9 @@
     </footer>
 
     <!-- Tus scripts de lógica -->
+    <script src="../js/ui.js"></script>
     <script src="../js/carrito.js"></script>
     <script src="../js/catalogoProductos.js"></script>
 </body>
 </html>
+

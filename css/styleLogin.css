@@ -1,106 +1,357 @@
+@import url('styleGlobalBackground.css');
 @import url('variables.css');
+
+body{
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.95), transparent 35%),
+                linear-gradient(135deg, #f3e8ff 0%, #d4b8ea 45%, #bea3d8 100%);
+}
+
+/* Logo: forzar visibilidad por contraste (imagen clara/blanca) */
+.page-header .header-brand img{
+    position: relative;
+    z-index: 20;
+    display: block;
+
+    /* fondo del logo: usar morado para que no tape/“lavar” */
+    background: rgba(91, 33, 182, 0.92);
+
+    border: 1px solid rgba(75,0,130,0.22);
+    border-radius: 12px;
+
+    /* sombra más marcada */
+    filter: drop-shadow(0 10px 22px rgba(0,0,0,0.28));
+}
+
+/* Evitar que el panel derecho (quiénes somos) pierda visibilidad sobre fondo */
+.right-section {
+    background: rgba(255,255,255,0.82) !important;
+}
+
+/* Contraste para el logo del panel “Quiénes somos” */
+.right-section img,
+.about-header img {
+    position: relative;
+    z-index: 20;
+    display: block;
+
+    background: rgba(91, 33, 182, 0.92);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 18px;
+
+    filter: drop-shadow(0 12px 26px rgba(0,0,0,0.28));
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    height: 100vh;
-    background: #c19ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 20px;
     font-family: 'Montserrat', sans-serif;
 }
 
-.container {
-    width: 90%;
-    max-width: 1200px;
+
+.page-header {
+    position: absolute;
+    width: calc(100% - 40px);
+    top: 20px;
+    left: 20px;
+    right: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 18px 26px;
+    background: rgba(255,255,255,0.82);
+    border-radius: 18px;
+    border: 1px solid rgba(75,0,130,0.12);
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+}
+
+.page-header .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.page-header .header-brand img {
+    width: 36px;
+    border-radius: 12px;
+}
+
+.page-header .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.page-header .header-actions a {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.page-header .header-actions a:hover {
+    color: var(--color-primary-dark);
+}
+
+.container {
+    width: min(1080px, 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 42px;
+    align-items: center;
+    margin-top: 90px;
+    max-width: 1080px;
+    justify-items: center;
+}
+
+/* Recuperar: asegurar centrar el formulario cuando no exista panel derecho */
+html:has(#recoverForm) .container,
+body:has(#recoverForm) .container {
+    grid-template-columns: 1fr;
+}
+
+html:has(#recoverForm) .login-card,
+body:has(#recoverForm) .login-card {
+    justify-self: center;
+    margin: 0 auto;
+}
+
+
+.login-card,
+.right-section {
+    width: 100%;
+    min-width: 320px;
 }
 
 .login-card {
-    width: 400px;
-    padding: 40px;
-    border: 2px solid rgba(75, 0, 130, 0.3);
-    border-radius: 15px;
-    background: #f3e8ff;
-    color: #4B0082;
+    padding: 46px 40px;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(75, 0, 130, 0.16);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
 }
 
 .login-card h1 {
     text-align: center;
-    margin-bottom: 5px;
-    color: #4B0082;
+    margin-bottom: 14px;
+    color: var(--color-primary);
+    font-size: 2rem;
 }
 
 .login-card p {
     text-align: center;
-    font-size: 14px;
+    font-size: 0.98rem;
     margin-bottom: 30px;
-    color: #4B0082;
+    color: var(--color-text-secondary);
 }
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+}
+
+.input-group.double {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
 }
 
 .input-group input {
     width: 100%;
-    padding: 10px;
-    border: none;
-    border-bottom: 2px solid #4B0082;
-    background: transparent;
-    color: #4B0082;
+    padding: 16px 18px;
+    border-radius: 24px;
+    border: 1px solid rgba(75, 0, 130, 0.18);
+    background: #fff;
+    color: var(--color-text-dark);
     outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.input-group input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 8px rgba(75, 0, 130, 0.08);
 }
 
 .input-group input::placeholder {
-    color: #8B4BB0;
+    color: var(--color-text-placeholder);
 }
 
 .btn {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border: none;
-    border-radius: 25px;
-    background: #4B0082;
-    color: white;
+    border-radius: 99px;
+    background: var(--color-primary);
+    color: var(--color-text-white);
     cursor: pointer;
-    margin-bottom: 15px;
-    font-weight: 600;
+    margin-bottom: 18px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform 0.25s ease, background 0.25s ease;
 }
 
 .btn:hover {
-    background: #6B2DA0;
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
 }
 
-.right-section {
+.forgot-link,
+.registro-link,
+.admin-note {
     text-align: center;
-    color: white;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
 }
 
-.registro-link {
-    text-align: center;
-    font-size: 14px;
-    margin-top: 10px;
-    color: #4B0082;
-}
-
-.registro-link a {
-    color: #4B0082;
-    font-weight: 600;
+.forgot-link a,
+.registro-link a,
+.admin-note a {
+    color: var(--color-primary);
+    font-weight: 700;
     text-decoration: none;
 }
 
-@media (max-width: 900px) {
+.admin-note {
+    margin-top: 8px;
+}
+
+.about-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.about-header img,
+.about-logo {
+    width: 92px;
+    border-radius: 22px;
+    background: rgba(243, 232, 255, 0.95);
+    padding: 22px;
+    border: 2px solid rgba(75,0,130,0.18);
+
+    /* “vida” + contraste para que no se pierda */
+    box-shadow: 0 20px 45px rgba(75,0,130,0.18);
+    filter: drop-shadow(0 10px 22px rgba(0,0,0,0.22));
+}
+
+
+.about-header span {
+    display: block;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    color: var(--color-primary);
+    font-weight: 800;
+}
+
+.about-panel p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.about-panel ul {
+    list-style: disc inside;
+    margin: 0;
+    padding-left: 0;
+    display: grid;
+    gap: 10px;
+    color: var(--color-text-secondary);
+}
+
+.about-panel li {
+    line-height: 1.7;
+}
+
+.right-section {
+    background: rgba(255,255,255,0.86);
+
+    border-radius: 32px;
+    padding: 36px 28px;
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 520px;
+}
+
+.about-panel {
+    align-items: flex-start;
+    text-align: left;
+    gap: 18px;
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+}
+
+.about-panel h2 {
+    margin: 0;
+    color: var(--color-primary);
+    font-size: 1.7rem;
+}
+
+.about-panel p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.about-panel ul {
+    list-style: disc inside;
+    padding-left: 0;
+    margin: 0;
+    color: var(--color-text-secondary);
+    display: grid;
+    gap: 8px;
+}
+
+.about-panel li {
+    line-height: 1.7;
+}
+
+.right-section img {
+    width: min(300px, 100%);
+    margin-bottom: 24px;
+}
+
+.right-section p {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    max-width: 320px;
+}
+
+@media (max-width: 980px) {
     .container {
-        flex-direction: column;
-        gap: 40px;
+        grid-template-columns: 1fr;
     }
+    .right-section {
+        min-height: auto;
+    }
+    .page-header {
+        width: calc(100% - 32px);
+        left: 16px;
+        right: 16px;
+        padding: 16px 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .container { gap: 24px; }
+    .input-group.double { grid-template-columns: 1fr; }
 }

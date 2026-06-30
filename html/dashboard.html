@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <title>DistriSync - Dashboard Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styleGlobalBackground.css" />
     <link rel="stylesheet" href="../css/styleDashboard.css">
+
 </head>
 <body>
     <!-- SIDEBAR -->
@@ -21,11 +23,17 @@
 
     <!-- MAIN -->
     <div class="main">
-        <h1>Panel de Control - DistriSync</h1>
+        <div class="dashboard-hero">
+            <div>
+                <div class="dashboard-badge">Live · Gestión premium</div>
+                <h1>Panel de Control - DistriSync</h1>
+            </div>
+            <div class="hero-pill">Operaciones en tiempo real</div>
+        </div>
         <div class="topbar">
-            <span>Administrador</span>
+            <span class="topbar-role">Administrador</span>
             <div class="top-buttons">
-                <a href="catalogoProductos.html" class="btn-redirect-catalogo">Catálogo</a>
+                <a href="catalogo.html" class="btn-redirect-catalogo">Catálogo</a>
                 <a href="inventario.html">Inventario</a>
                 <a href="pedidos.html">Pedidos</a>
                 <a href="analytics.html">Analytics</a>
@@ -161,3 +169,4 @@
     <script src="../js/dashboard.js"></script>
 </body>
 </html>
+

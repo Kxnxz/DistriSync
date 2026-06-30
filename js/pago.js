@@ -121,7 +121,7 @@ async function procesarPago() {
     showAlert('Pago aprobado ✅', true);
 
     setTimeout(() => {
-      window.location.href = 'catalogoProductos.html';
+      window.location.href = 'catalogo.html';
     }, 1200);
   } catch (err) {
     console.error(err);
@@ -141,4 +141,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Si el usuario selecciona PSE, en esta demo seguimos dejando el formulario igual.
 });
+
 

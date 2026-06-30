@@ -1,0 +1,65 @@
+/*
+  DistriSync — Fondo global (igual paleta/difuminado que index)
+  Para evitar “romper cosas graves”, solo define background/efectos del body.
+*/
+
+@import url('variables.css');
+
+body {
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.65), transparent 35%),
+              linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 45%, #c4a1ff 100%);
+}
+
+/* Barras superiores: usar “morados intensos” tipo sidebar dashboard (para que el logo blanco/clerito contraste) */
+.landing-topbar,
+.topbar,
+.page-header {
+  background: rgba(91, 33, 182, 0.92) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  box-shadow: 0 10px 30px rgba(75,0,130,0.28) !important;
+}
+
+.landing-topbar .logo,
+.topbar .logo,
+.page-header .header-brand {
+  color: rgba(255,255,255,0.96) !important;
+}
+
+.landing-topbar .menu a,
+.topbar .menu a,
+.page-header .header-actions a,
+.page-header .header-actions a:visited {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+.landing-topbar .menu a:hover,
+.topbar .menu a:hover,
+.page-header .header-actions a:hover {
+  color: rgba(255,255,255,1) !important;
+}
+
+
+
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.28;
+  z-index: -1;
+  pointer-events: none;
+  animation: floatOrb 10s ease-in-out infinite alternate;
+}
+
+body::before { top: -80px; right: -80px; background: rgba(255,255,255,0.8); }
+body::after { bottom: -100px; left: -100px; background: rgba(75,0,130,0.2); animation-duration: 12s; }
+
+@keyframes floatOrb {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to { transform: translate3d(16px, 24px, 0) scale(1.06); }
+}
+

@@ -9,12 +9,25 @@ const productos = {
 let filtroCategoria = 'todos';
 let filtroBusqueda = '';
 
+
 const categoriaMap = {
     1: 'Piel sensible',
     2: 'Noche',
     3: 'Sérum',
     4: 'Exfoliantes'
 };
+
+let filtroProveedor = 'todos';
+let proveedores = [];
+
+// Tabs de proveedores NO se usan en el modo catálogo (solo cards en proveedoresGrid).
+function renderTabsProveedores() {
+    const container = document.getElementById('proveedorTabs');
+    if (!container) return;
+    container.style.display = 'none';
+}
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
@@ -39,16 +52,18 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarProductos();
 });
 
+
 // CARGAR DESDE SERVER
 // CARGAR DESDE SERVER
 async function cargarProductos() {
-    console.log("🚀 Iniciando carga de productos...");
+    // Cargar productos (incluye proveedor_nombre si existe)
+    console.log("Iniciando carga de productos...");
 
     try {
         const response = await fetch("../php/producto.php?action=listar");
         const data = await response.json();
 
-        console.log("📦 PRODUCTOS:", data);
+        console.log("PRODUCTOS:", data);
 
         // Relación nombre del producto -> imagen
         // Nota: aquí deben coincidir EXACTO los nombres que devuelve la BD (producto.nombre)
@@ -62,6 +77,16 @@ async function cargarProductos() {
             'Pure Glow Exfoliante': 'glow.png',
             'Crema sin imagen': 'crema.png'
         };
+
+        // Inicializar filtros de proveedor
+        const nombresProveedores = Array.from(
+            new Set(
+                data.map(p => (p.proveedor_nombre ? String(p.proveedor_nombre).trim() : '').trim())
+            ).values()
+        ).filter(Boolean);
+        proveedores = nombresProveedores;
+
+
 
         productos.todos = data.map(producto => {
             const categoriaNombre =
@@ -109,25 +134,122 @@ async function cargarProductos() {
             return {
                 ...producto,
                 categoriaNombre,
-                imagen
+                imagen,
+                proveedorNombre: producto.proveedor_nombre || 'Sin proveedor'
             };
         });
 
 
-        // Si hay filtros, aplicarlos; si no existe aplicarFiltros, renderizamos directo.
-        if (typeof aplicarFiltros === 'function') {
-            aplicarFiltros();
-        } else {
-            mostrarProductos(productos.todos);
-            mostrarDestacados(productos.todos);
+        // En catálogo mostramos SOLO proveedores. No renderizamos las cards de productos.
+        // (El proveedor -> proveedorProductos.html ya renderiza sus productos.)
+
+        proveedores = nombresProveedores;
+        renderTabsProveedores();
+
+        // Top 3 (productos más “vendidos”/disponibles por stock)
+        const destacados = [...data]
+            .sort((a,b) => (Number(b.stock)||0) - (Number(a.stock)||0))
+            .slice(0,3);
+
+        const featuredGrid = document.getElementById('featuredGrid');
+        if (featuredGrid) {
+            featuredGrid.innerHTML = destacados.map(prod => {
+                const categoriaNombre = categoriaMap[prod.categoria] || prod.categoria || 'Sin categoría';
+                const imgFromDb = prod.imagen ? String(prod.imagen).trim() : '';
+                const esV1 = !imgFromDb || imgFromDb === 'v1.png' || imgFromDb === 'v1' || imgFromDb === 'v1.png ';
+                let imagen = '';
+                if (!esV1) {
+                    imagen = imgFromDb.startsWith('imagenes/') ? `../${imgFromDb}` : `../imagenes/${imgFromDb}`;
+                }
+                if (!imagen) imagen = '../imagenes/v1.png';
+
+                return `
+                    <div class="featured-card">
+                        <h3>${prod.nombre}</h3>
+                        <p>${categoriaNombre} · $${Number(prod.precio).toFixed(2)}</p>
+                        <p>${Number(prod.stock) > 0 ? `Stock: ${prod.stock}` : 'Sin stock'}</p>
+                        <button class="btn-card" style="width:100%;" onclick="verDetalleProducto(${prod.id_producto})">Ver detalle</button>
+                    </div>
+                `;
+            }).join('');
         }
 
+        // CTA modo proveedores
+        window.setModoProveedores = function(modo){
+
+            filtroProveedor = 'todos';
+
+            const btnProveedores = document.getElementById('btnProveedores');
+            const btnMejores = document.getElementById('btnMejores');
+
+            if (btnProveedores) btnProveedores.classList.toggle('active', modo === 'todos');
+            if (btnMejores) btnMejores.classList.toggle('active', modo === 'mejores');
+
+            renderProveedoresCards(modo);
+        }
+
+        function renderProveedoresCards(modo){
+            const gridProv = document.getElementById('proveedoresGrid');
+            if (!gridProv) return;
+
+            if (!proveedores.length) {
+                gridProv.innerHTML = `
+                    <div class="empty-message">
+                        <p>No hay proveedores disponibles.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Para “mejores proveedores” sin tabla extra, usamos heurística: total de stock por proveedor.
+            const stockPorProveedor = proveedores.reduce((acc, prov) => {
+                const prods = productos.todos.filter(x => (x.proveedorNombre || '') === prov);
+                const totalStock = prods.reduce((s, x) => s + (Number(x.stock) || 0), 0);
+                acc[prov] = totalStock;
+                return acc;
+            }, {});
+
+            let lista = [...proveedores];
+            if (modo === 'mejores') {
+                lista = lista
+                    .sort((a,b) => (stockPorProveedor[b] || 0) - (stockPorProveedor[a] || 0))
+                    .slice(0, 6);
+            }
+
+            // Foto: no tenemos imagen de proveedor en el JSON, así que usamos avatar con iniciales.
+            gridProv.innerHTML = lista.map(p => {
+                const inicial = String(p).trim().slice(0,1).toUpperCase();
+                return `
+                    <div class="provider-card" onclick="irAProveedor('${p}')" role="button" tabindex="0">
+                        <div class="provider-card-inner">
+                            <div class="provider-card-top">
+                                <div class="provider-avatar">${inicial}</div>
+                                <div>
+                                    <div class="provider-card-name">${p}</div>
+                                    <div class="provider-card-sub">Ver productos</div>
+                                </div>
+                            </div>
+                            <div class="provider-card-bot">
+                                <span class="provider-card-sub">Stock total: ${stockPorProveedor[p] || 0}</span>
+                                <span class="provider-card-btn">Ir</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render inicial
+        renderProveedoresCards('todos');
+
+
+
+
     } catch (err) {
-
-
-        console.error("❌ ERROR:", err);
-
-        alert("Error cargando productos");
+        console.error("ERROR:", err);
+        if (typeof mostrarError === 'function') {
+            mostrarError("Error cargando productos");
+        }
     }
 }
 
@@ -205,11 +327,13 @@ function getBadge(producto) {
 }
 
 function filtrarProductos(categoria) {
+    // Filtrar por categoría (existe ya)
+
     filtroCategoria = categoria;
     const botones = document.querySelectorAll('.tab-btn');
 
     botones.forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.trim() === categoria || (categoria === 'todos' && btn.textContent.trim().includes('Todos')));
+        btn.classList.toggle('active', btn.dataset.category === categoria.toLowerCase());
     });
 
     aplicarFiltros();
@@ -220,13 +344,116 @@ function buscarProductos(query) {
     aplicarFiltros();
 }
 
+function filtrarPorProveedor(proveedor) {
+    filtroProveedor = proveedor;
+    // En modo catálogo (solo proveedores) no aplicamos filtros de productos.
+}
+
+
+// Redirect: proveedor -> su propia vista
+function irAProveedor(proveedor) {
+    filtroProveedor = proveedor;
+    // Guardamos en localStorage para que el HTML destino cargue el proveedor
+    localStorage.setItem('proveedorSeleccionado', JSON.stringify(proveedor));
+    window.location.href = 'proveedorProductos.html';
+}
+
+
+function aplicarFiltros() {
+    const busqueda = filtroBusqueda.trim().toLowerCase();
+
+    const listaFiltrada = productos.todos.filter(prod => {
+        const categoriaMatch = filtroCategoria === 'todos' || prod.categoriaNombre.toLowerCase() === filtroCategoria.toLowerCase();
+        const proveedorMatch = filtroProveedor === 'todos' || (prod.proveedorNombre || '').toLowerCase() === filtroProveedor.toLowerCase();
+        const texto = `${prod.nombre} ${prod.descripcion || ''} ${prod.categoriaNombre}`.toLowerCase();
+        const busquedaMatch = !busqueda || texto.includes(busqueda);
+        return categoriaMatch && proveedorMatch && busquedaMatch;
+    });
+
+    // Render por secciones (proveedor)
+    mostrarProductosAgrupadosPorProveedor(listaFiltrada);
+}
+
+function mostrarProductosAgrupadosPorProveedor(lista) {
+
+
+    const grid = document.getElementById("productosGrid");
+    if (!grid) return;
+
+    if (!lista || lista.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-message">
+                <p>No hay productos para mostrar.</p>
+            </div>
+        `;
+        return;
+    }
+
+    // Agrupar por proveedor
+    const mapa = new Map();
+    lista.forEach(p => {
+        const prov = p.proveedorNombre || 'Sin proveedor';
+        if (!mapa.has(prov)) mapa.set(prov, []);
+        mapa.get(prov).push(p);
+    });
+
+    // Ordenar secciones por stock total (opcional, pero queda “bonito”)
+    const secciones = Array.from(mapa.entries()).sort((a, b) => {
+        const stockA = a[1].reduce((sum, x) => sum + (x.stock || 0), 0);
+        const stockB = b[1].reduce((sum, x) => sum + (x.stock || 0), 0);
+        return stockB - stockA;
+    });
+
+    grid.innerHTML = secciones.map(([proveedor, productosProv]) => {
+
+        // Tarjetas internas
+        const cards = productosProv.map(producto => `
+            <div class="product-card product-card-compact">
+                <div class="product-img">
+                    <img src="${producto.imagen || '../imagenes/v1.png'}" alt="${producto.nombre}">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">${producto.categoriaNombre}</span>
+                    <h3 class="product-title">${producto.nombre}</h3>
+                    <p class="product-price">${Number(producto.precio).toFixed(2)}</p>
+                    <p class="stock">${producto.stock > 0 ? `Disponible: ${producto.stock}` : 'Agotado'}</p>
+                    <p class="product-description">${producto.descripcion || 'Sin descripción disponible.'}</p>
+                    <button class="btn-card" onclick="verDetalleProducto(${producto.id_producto})">Ver detalle</button>
+                    <button class="btn-card" onclick="agregarAlCarritoSimple(${producto.id_producto})">Agregar al carrito</button>
+                </div>
+            </div>
+        `).join('');
+
+        return `
+            <section class="provider-block">
+                <header class="provider-header">
+                    <div class="provider-title">
+                        <span class="provider-label">PROVEEDOR</span>
+                        <h2 class="provider-name">${proveedor}</h2>
+                    </div>
+                    <div class="provider-stats">
+                        <span class="provider-count">${productosProv.length} productos</span>
+                        <span class="provider-stock">Stock total: ${productosProv.reduce((s, x) => s + (x.stock || 0), 0)}</span>
+                    </div>
+                </header>
+                <div class="provider-products-grid">
+                    ${cards}
+                </div>
+            </section>
+        `;
+    }).join('');
+
+    mostrarDestacados(lista);
+}
+
+
 // DETALLE PRODUCTO
 function verDetalleProducto(id) {
     const producto = productos.todos.find(p => p.id_producto == id);
     if (!producto) return;
 
     localStorage.setItem("productoSeleccionado", JSON.stringify(producto));
-    window.location.href = "productoDetalle.html";
+    window.location.href = "detalle.html";
 }
 
 // AGREGAR CARRITO
@@ -236,8 +463,11 @@ function agregarAlCarritoSimple(id) {
 
     if (typeof agregarAlCarrito === "function") {
         agregarAlCarrito(producto);
+    } else if (typeof mostrarError === 'function') {
+        mostrarError("Carrito no disponible");
     } else {
         alert("Carrito no disponible");
     }
 }
+
 
